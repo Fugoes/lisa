@@ -32,7 +32,7 @@ enum class LNodeType {
     THEN,
     TO,
     VAR,
-    WHLIE,
+    WHILE,
     YIELD,
     Atom,
     Atoms,

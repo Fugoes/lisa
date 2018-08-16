@@ -238,6 +238,7 @@ std::optional<std::shared_ptr<LNode>> LParser::reduce_46() {
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_47() {
     // Start : Brs Stmts
+    this->accept();
     return std::make_shared<LNode>();
 }
 
@@ -282,7 +283,7 @@ std::optional<std::shared_ptr<LNode>> LParser::reduce_55() {
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_56() {
-    // WStmt : WHLIE Expr Brs DO Brs Stmts END Brs
+    // WStmt : WHILE Expr Brs DO Brs Stmts END Brs
     return std::make_shared<LNode>();
 }
 
@@ -436,7 +437,7 @@ std::optional<std::shared_ptr<LNode>> LParser::shift_VAR() {
     return std::make_shared<LNode>();
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::shift_WHLIE() {
+std::optional<std::shared_ptr<LNode>> LParser::shift_WHILE() {
     this->move();
     return std::make_shared<LNode>();
 }

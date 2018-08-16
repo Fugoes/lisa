@@ -2847,7 +2847,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -2886,7 +2886,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -3015,8 +3015,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -3047,7 +3047,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
                             if (!r.has_value()) {
@@ -3178,7 +3178,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
                             if (!r.has_value()) {
@@ -3443,7 +3443,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
                             if (!r.has_value()) {
@@ -3474,7 +3474,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
                             if (!r.has_value()) {
@@ -3505,7 +3505,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
                             if (!r.has_value()) {
@@ -3536,7 +3536,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
                             if (!r.has_value()) {
@@ -3567,7 +3567,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
                             if (!r.has_value()) {
@@ -3598,7 +3598,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
                             if (!r.has_value()) {
@@ -3629,7 +3629,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
                             if (!r.has_value()) {
@@ -3660,7 +3660,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
                             if (!r.has_value()) {
@@ -3691,7 +3691,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
                             if (!r.has_value()) {
@@ -3722,7 +3722,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
                             if (!r.has_value()) {
@@ -3826,7 +3826,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
                             if (!r.has_value()) {
@@ -3857,7 +3857,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
                             if (!r.has_value()) {
@@ -3957,8 +3957,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -5517,7 +5517,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -6984,7 +6984,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -7044,7 +7044,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
                             if (!r.has_value()) {
@@ -7344,7 +7344,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -8658,7 +8658,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -8697,7 +8697,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
                             if (!r.has_value()) {
@@ -8916,7 +8916,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -8955,7 +8955,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
                             if (!r.has_value()) {
@@ -9049,7 +9049,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -9636,7 +9636,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -9675,7 +9675,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -9800,7 +9800,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -9908,8 +9908,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -10074,8 +10074,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -10106,7 +10106,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
                             if (!r.has_value()) {
@@ -10594,8 +10594,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -10695,8 +10695,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -10727,7 +10727,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
                             if (!r.has_value()) {
@@ -10828,7 +10828,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
                             if (!r.has_value()) {
@@ -10975,8 +10975,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -11054,7 +11054,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
                             if (!r.has_value()) {
@@ -11086,7 +11086,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
                             if (!r.has_value()) {
@@ -11118,7 +11118,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
                             if (!r.has_value()) {
@@ -11150,7 +11150,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
                             if (!r.has_value()) {
@@ -11182,7 +11182,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
                             if (!r.has_value()) {
@@ -11214,7 +11214,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
                             if (!r.has_value()) {
@@ -11246,7 +11246,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
                             if (!r.has_value()) {
@@ -11278,7 +11278,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
                             if (!r.has_value()) {
@@ -11310,7 +11310,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
                             if (!r.has_value()) {
@@ -11342,7 +11342,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
                             if (!r.has_value()) {
@@ -11562,7 +11562,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
                             if (!r.has_value()) {
@@ -11670,7 +11670,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
                             if (!r.has_value()) {
@@ -11701,7 +11701,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
                             if (!r.has_value()) {
@@ -11732,7 +11732,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
                             if (!r.has_value()) {
@@ -11763,7 +11763,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
                             if (!r.has_value()) {
@@ -11794,7 +11794,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
                             if (!r.has_value()) {
@@ -11825,7 +11825,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
                             if (!r.has_value()) {
@@ -11856,7 +11856,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
                             if (!r.has_value()) {
@@ -11887,7 +11887,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
                             if (!r.has_value()) {
@@ -11918,7 +11918,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
                             if (!r.has_value()) {
@@ -11949,7 +11949,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
                             if (!r.has_value()) {
@@ -12032,7 +12032,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
                             if (!r.has_value()) {
@@ -12063,7 +12063,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
                             if (!r.has_value()) {
@@ -12163,8 +12163,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -12341,7 +12341,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -12625,8 +12625,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -12686,7 +12686,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -12741,7 +12741,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -12921,7 +12921,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13010,7 +13010,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13133,8 +13133,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -13165,7 +13165,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13204,7 +13204,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13372,7 +13372,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13448,7 +13448,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
                             if (!r.has_value()) {
@@ -13480,7 +13480,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13520,7 +13520,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13560,7 +13560,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
                             if (!r.has_value()) {
@@ -13607,7 +13607,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13791,7 +13791,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13830,7 +13830,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
                             if (!r.has_value()) {
@@ -13876,7 +13876,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
                             if (!r.has_value()) {
@@ -13907,7 +13907,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -13961,7 +13961,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
                             if (!r.has_value()) {
@@ -13992,7 +13992,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
                             if (!r.has_value()) {
@@ -14082,7 +14082,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14176,8 +14176,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -14208,7 +14208,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14248,7 +14248,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
                             if (!r.has_value()) {
@@ -14280,7 +14280,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
                             if (!r.has_value()) {
@@ -14311,7 +14311,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14351,7 +14351,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
                             if (!r.has_value()) {
@@ -14442,7 +14442,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14481,7 +14481,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
                             if (!r.has_value()) {
@@ -14512,7 +14512,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14551,7 +14551,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
                             if (!r.has_value()) {
@@ -14582,7 +14582,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14622,7 +14622,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14692,7 +14692,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14731,7 +14731,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -14769,7 +14769,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
                             if (!r.has_value()) {
@@ -14869,8 +14869,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -14970,8 +14970,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15071,8 +15071,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15103,7 +15103,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -15173,7 +15173,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -15212,7 +15212,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -15320,8 +15320,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15421,8 +15421,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15453,7 +15453,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
                             if (!r.has_value()) {
@@ -15485,7 +15485,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
                             if (!r.has_value()) {
@@ -15600,8 +15600,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15701,8 +15701,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15863,8 +15863,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -15910,7 +15910,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
                             if (!r.has_value()) {
@@ -16025,8 +16025,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -16126,8 +16126,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -16228,8 +16228,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -16290,7 +16290,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16359,7 +16359,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16428,7 +16428,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16489,7 +16489,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16528,7 +16528,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16626,7 +16626,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16665,7 +16665,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16773,8 +16773,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -16806,7 +16806,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16846,7 +16846,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -16885,7 +16885,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
                             if (!r.has_value()) {
@@ -16932,7 +16932,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
                             if (!r.has_value()) {
@@ -16964,7 +16964,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
                             if (!r.has_value()) {
@@ -17064,8 +17064,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -17096,7 +17096,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17135,7 +17135,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17173,7 +17173,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17212,7 +17212,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
                             if (!r.has_value()) {
@@ -17243,7 +17243,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
                             if (!r.has_value()) {
@@ -17290,7 +17290,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
                             if (!r.has_value()) {
@@ -17322,7 +17322,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
                             if (!r.has_value()) {
@@ -17353,7 +17353,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17407,7 +17407,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
                             if (!r.has_value()) {
@@ -17438,7 +17438,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
                             if (!r.has_value()) {
@@ -17524,8 +17524,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -17557,7 +17557,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17665,8 +17665,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -17697,7 +17697,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17805,8 +17805,8 @@ public:
                             }
                             this->push(31, r.value());
                             break;
-                        case LNodeType::WHLIE:
-                            r = this->shift_WHLIE();
+                        case LNodeType::WHILE:
+                            r = this->shift_WHILE();
                             if (!r.has_value()) {
                                 this->error();
                                 break;
@@ -17838,7 +17838,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
                             if (!r.has_value()) {
@@ -17869,7 +17869,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
                             if (!r.has_value()) {
@@ -17915,7 +17915,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
                             if (!r.has_value()) {
@@ -17954,7 +17954,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::RETURN:
                         case LNodeType::VAR:
-                        case LNodeType::WHLIE:
+                        case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
                             if (!r.has_value()) {
@@ -18154,7 +18154,7 @@ public:
     // Vars : Var Vars
     std::optional<std::shared_ptr<LNode>> reduce_55();
 
-    // WStmt : WHLIE Expr Brs DO Brs Stmts END Brs
+    // WStmt : WHILE Expr Brs DO Brs Stmts END Brs
     std::optional<std::shared_ptr<LNode>> reduce_56();
 
     // YStmt : YIELD Vars BR Brs
@@ -18218,7 +18218,7 @@ public:
 
     std::optional<std::shared_ptr<LNode>> shift_VAR();
 
-    std::optional<std::shared_ptr<LNode>> shift_WHLIE();
+    std::optional<std::shared_ptr<LNode>> shift_WHILE();
 
     std::optional<std::shared_ptr<LNode>> shift_YIELD();
 };

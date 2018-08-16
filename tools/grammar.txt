@@ -41,7 +41,7 @@ Expr     : Expr1 BinOP2 Expr
 EStmt    : Var Vars EQUAL Expr BR Brs
 SStmt    : Expr BR Brs
 FCStmt   : FUNCTION Var FBRAC Vars KET Brs Stmts END Brs
-WStmt    : WHLIE Expr Brs DO Brs Stmts END Brs
+WStmt    : WHILE Expr Brs DO Brs Stmts END Brs
 F0Stmt   : FOR Var EQUAL Expr TO Expr DO Brs Stmts END Brs
 F1Stmt   : FOR Var IN Expr DO Brs Stmts END Brs
 RStmt    : RETURN Vars BR Brs

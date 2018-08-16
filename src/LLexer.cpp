@@ -172,15 +172,31 @@ std::optional<LToken> LLexer::from_symbol(std::string token) {
 }
 
 std::optional<LToken> LLexer::from_string(std::string token) {
-    if (token == "function")
-        return LToken(LNodeType::FUNCTION, std::move(token));
-    if (token == "if")
-        return LToken(LNodeType::IF, std::move(token));
-    if (token == "then")
-        return LToken(LNodeType::THEN, std::move(token));
+    if (token == "break")
+        return LToken(LNodeType::BREAK, std::move(token));
+    if (token == "do")
+        return LToken(LNodeType::DO, std::move(token));
     if (token == "else")
         return LToken(LNodeType::ELSE, std::move(token));
     if (token == "end")
         return LToken(LNodeType::END, std::move(token));
+    if (token == "for")
+        return LToken(LNodeType::FOR, std::move(token));
+    if (token == "function")
+        return LToken(LNodeType::FUNCTION, std::move(token));
+    if (token == "if")
+        return LToken(LNodeType::IF, std::move(token));
+    if (token == "in")
+        return LToken(LNodeType::IN, std::move(token));
+    if (token == "return")
+        return LToken(LNodeType::RETURN, std::move(token));
+    if (token == "then")
+        return LToken(LNodeType::THEN, std::move(token));
+    if (token == "to")
+        return LToken(LNodeType::TO, std::move(token));
+    if (token == "while")
+        return LToken(LNodeType::WHILE, std::move(token));
+    if (token == "yield")
+        return LToken(LNodeType::YIELD, std::move(token));
     return LToken(LNodeType::VAR, std::move(token));
 }
