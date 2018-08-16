@@ -2836,7 +2836,7 @@ public:
 
     void parse() {
         this->push(0, nullptr);
-        std::optional<std::shared_ptr<LNode>> r;
+        std::shared_ptr<LNode> r;
         int flag = -1;
         while (!this->terminated) {
             switch (this->top_state()) {
@@ -2854,8 +2854,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -2864,15 +2863,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -2893,8 +2891,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -2903,15 +2900,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -2922,8 +2918,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_45();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -2932,7 +2927,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -2943,8 +2938,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -2953,87 +2947,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(7, r.value());
+                            this->push(7, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(11, r.value());
+                            this->push(11, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(12, r.value());
+                            this->push(12, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(13, r.value());
+                            this->push(13, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(24, r.value());
+                            this->push(24, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(32, r.value());
+                            this->push(32, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(33, r.value());
+                            this->push(33, r);
                             break;
                         default:
                             this->error();
@@ -3054,8 +3038,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -3064,7 +3047,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3075,27 +3058,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -3116,8 +3096,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -3126,12 +3105,11 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -3140,31 +3118,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(46, r.value());
+                            this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(47, r.value());
+                            this->push(47, r);
                             break;
                         default:
                             this->error();
@@ -3185,8 +3160,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3195,7 +3169,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3206,8 +3180,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3216,55 +3189,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -3283,8 +3250,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3293,23 +3259,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -3326,8 +3290,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3336,23 +3299,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -3363,19 +3324,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(63, r.value());
+                            this->push(63, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(64, r.value());
+                            this->push(64, r);
                             break;
                         default:
                             this->error();
@@ -3386,19 +3345,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(66, r.value());
+                            this->push(66, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(67, r.value());
+                            this->push(67, r);
                             break;
                         default:
                             this->error();
@@ -3409,27 +3366,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -3450,8 +3404,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3460,7 +3413,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3481,8 +3434,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3491,7 +3443,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3512,8 +3464,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3522,7 +3473,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3543,8 +3494,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3553,7 +3503,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3574,8 +3524,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3584,7 +3533,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3605,8 +3554,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3615,7 +3563,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3636,8 +3584,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3646,7 +3593,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3667,8 +3614,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3677,7 +3623,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3698,8 +3644,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3708,7 +3653,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3729,8 +3674,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3739,7 +3683,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3750,8 +3694,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -3760,23 +3703,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -3787,11 +3728,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(80, r.value());
+                            this->push(80, r);
                             break;
                         default:
                             this->error();
@@ -3802,8 +3742,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_47();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -3812,7 +3751,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3833,8 +3772,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3843,7 +3781,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3864,8 +3802,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -3874,7 +3811,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -3885,8 +3822,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -3895,87 +3831,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(7, r.value());
+                            this->push(7, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(11, r.value());
+                            this->push(11, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(12, r.value());
+                            this->push(12, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(13, r.value());
+                            this->push(13, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(24, r.value());
+                            this->push(24, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(32, r.value());
+                            this->push(32, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(33, r.value());
+                            this->push(33, r);
                             break;
                         default:
                             this->error();
@@ -4000,8 +3926,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4010,7 +3935,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4035,8 +3960,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4045,7 +3969,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4056,27 +3980,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -4087,8 +4008,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -4097,23 +4017,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -4124,27 +4042,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -4165,8 +4080,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -4175,15 +4089,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(93, r.value());
+                            this->push(93, r);
                             break;
                         default:
                             this->error();
@@ -4194,11 +4107,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(95, r.value());
+                            this->push(95, r);
                             break;
                         default:
                             this->error();
@@ -4209,8 +4121,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4219,55 +4130,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -4286,8 +4191,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4296,23 +4200,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -4329,8 +4231,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4339,23 +4240,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -4377,8 +4276,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4387,7 +4285,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4409,8 +4307,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4419,7 +4316,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4440,8 +4337,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -4450,7 +4346,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4461,11 +4357,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(99, r.value());
+                            this->push(99, r);
                             break;
                         default:
                             this->error();
@@ -4476,8 +4371,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -4486,31 +4380,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -4531,8 +4422,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -4541,15 +4431,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         default:
                             this->error();
@@ -4562,8 +4451,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4572,7 +4460,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4585,8 +4473,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4595,7 +4482,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4606,8 +4493,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -4616,23 +4502,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(46, r.value());
+                            this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(47, r.value());
+                            this->push(47, r);
                             break;
                         default:
                             this->error();
@@ -4645,8 +4529,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_9();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4655,7 +4538,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4668,8 +4551,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_10();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4678,7 +4560,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4691,8 +4573,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_11();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4701,7 +4582,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4714,8 +4595,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_12();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4724,7 +4604,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4737,8 +4617,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_13();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4747,7 +4626,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4760,8 +4639,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_14();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4770,7 +4648,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4781,27 +4659,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -4814,8 +4689,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_5();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4824,7 +4698,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4837,8 +4711,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_6();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4847,7 +4720,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4858,27 +4731,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -4891,8 +4761,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_7();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4901,7 +4770,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4914,8 +4783,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_8();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -4924,7 +4792,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -4935,27 +4803,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -4966,19 +4831,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(114, r.value());
+                            this->push(114, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(115, r.value());
+                            this->push(115, r);
                             break;
                         default:
                             this->error();
@@ -4990,8 +4853,7 @@ public:
                         case LNodeType::EQUAL:
                         case LNodeType::IN:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5000,7 +4862,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5012,8 +4874,7 @@ public:
                         case LNodeType::EQUAL:
                         case LNodeType::IN:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5022,7 +4883,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5033,11 +4894,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(116, r.value());
+                            this->push(116, r);
                             break;
                         default:
                             this->error();
@@ -5048,8 +4908,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5058,7 +4917,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5069,8 +4928,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5079,7 +4937,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5090,27 +4948,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -5132,8 +4987,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5142,15 +4996,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(119, r.value());
+                            this->push(119, r);
                             break;
                         default:
                             this->error();
@@ -5162,8 +5015,7 @@ public:
                         case LNodeType::BR:
                         case LNodeType::THEN:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5172,55 +5024,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -5240,8 +5086,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5250,23 +5095,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -5284,8 +5127,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::THEN:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5294,23 +5136,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -5321,8 +5161,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5331,15 +5170,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(124, r.value());
+                            this->push(124, r);
                             break;
                         default:
                             this->error();
@@ -5362,8 +5200,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5372,7 +5209,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5395,8 +5232,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5405,7 +5241,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5416,11 +5252,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(126, r.value());
+                            this->push(126, r);
                             break;
                         default:
                             this->error();
@@ -5433,8 +5268,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5443,7 +5277,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5456,8 +5290,7 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5466,7 +5299,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5477,8 +5310,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5487,23 +5319,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -5524,8 +5354,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5534,15 +5363,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -5553,8 +5381,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_51();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -5563,7 +5390,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5574,27 +5401,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -5616,8 +5440,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5626,15 +5449,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(131, r.value());
+                            this->push(131, r);
                             break;
                         default:
                             this->error();
@@ -5646,8 +5468,7 @@ public:
                         case LNodeType::BR:
                         case LNodeType::DO:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5656,55 +5477,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -5724,8 +5539,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5734,23 +5548,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -5768,8 +5580,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5778,23 +5589,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -5817,8 +5626,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5827,7 +5635,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5850,8 +5658,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -5860,7 +5667,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5871,8 +5678,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5881,15 +5687,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(136, r.value());
+                            this->push(136, r);
                             break;
                         default:
                             this->error();
@@ -5900,11 +5705,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(138, r.value());
+                            this->push(138, r);
                             break;
                         default:
                             this->error();
@@ -5915,11 +5719,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(139, r.value());
+                            this->push(139, r);
                             break;
                         default:
                             this->error();
@@ -5940,8 +5743,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -5950,7 +5752,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -5961,8 +5763,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -5971,31 +5772,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -6016,8 +5814,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6026,15 +5823,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(93, r.value());
+                            this->push(93, r);
                             break;
                         default:
                             this->error();
@@ -6055,8 +5851,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6065,15 +5860,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         default:
                             this->error();
@@ -6084,27 +5878,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -6115,27 +5906,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -6146,27 +5934,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -6177,27 +5962,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -6208,27 +5990,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -6242,8 +6021,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6252,15 +6030,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(149, r.value());
+                            this->push(149, r);
                             break;
                         default:
                             this->error();
@@ -6271,8 +6048,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6281,31 +6057,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -6316,11 +6089,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(152, r.value());
+                            this->push(152, r);
                             break;
                         default:
                             this->error();
@@ -6335,8 +6107,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -6345,7 +6116,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6360,8 +6131,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -6370,7 +6140,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6391,8 +6161,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -6401,7 +6170,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6412,8 +6181,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->reduce_55();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -6422,7 +6190,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6443,8 +6211,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6453,15 +6220,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         default:
                             this->error();
@@ -6472,8 +6238,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -6482,7 +6247,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6504,8 +6269,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -6514,7 +6278,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6536,8 +6300,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -6546,7 +6309,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6565,8 +6328,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -6575,7 +6337,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6592,8 +6354,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -6602,7 +6363,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6613,27 +6374,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -6644,27 +6402,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -6675,8 +6430,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6685,23 +6439,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(170, r.value());
+                            this->push(170, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(171, r.value());
+                            this->push(171, r);
                             break;
                         default:
                             this->error();
@@ -6712,11 +6464,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(173, r.value());
+                            this->push(173, r);
                             break;
                         default:
                             this->error();
@@ -6738,8 +6489,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -6748,7 +6498,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -6759,8 +6509,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6769,31 +6518,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -6815,8 +6561,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6825,15 +6570,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(119, r.value());
+                            this->push(119, r);
                             break;
                         default:
                             this->error();
@@ -6844,27 +6588,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -6875,27 +6616,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -6906,27 +6644,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -6937,8 +6672,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -6947,15 +6681,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(124, r.value());
+                            this->push(124, r);
                             break;
                         default:
                             this->error();
@@ -6966,11 +6699,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(180, r.value());
+                            this->push(180, r);
                             break;
                         default:
                             this->error();
@@ -6991,8 +6723,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7001,15 +6732,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -7020,8 +6750,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_55();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -7030,7 +6759,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7051,8 +6780,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -7061,7 +6789,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7072,11 +6800,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(182, r.value());
+                            this->push(182, r);
                             break;
                         default:
                             this->error();
@@ -7098,8 +6825,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -7108,7 +6834,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7119,8 +6845,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7129,31 +6854,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -7175,8 +6897,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7185,15 +6906,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(131, r.value());
+                            this->push(131, r);
                             break;
                         default:
                             this->error();
@@ -7204,27 +6924,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -7235,27 +6952,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -7266,27 +6980,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -7297,8 +7008,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7307,15 +7017,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(136, r.value());
+                            this->push(136, r);
                             break;
                         default:
                             this->error();
@@ -7326,11 +7035,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(189, r.value());
+                            this->push(189, r);
                             break;
                         default:
                             this->error();
@@ -7351,8 +7059,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7361,15 +7068,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -7390,8 +7096,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7400,15 +7105,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(93, r.value());
+                            this->push(93, r);
                             break;
                         default:
                             this->error();
@@ -7419,11 +7123,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(192, r.value());
+                            this->push(192, r);
                             break;
                         default:
                             this->error();
@@ -7444,8 +7147,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -7454,7 +7156,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7475,8 +7177,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -7485,7 +7186,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7496,8 +7197,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -7506,7 +7206,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7525,8 +7225,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -7535,7 +7234,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7552,8 +7251,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -7562,7 +7260,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7573,11 +7271,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(193, r.value());
+                            this->push(193, r);
                             break;
                         default:
                             this->error();
@@ -7588,11 +7285,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(194, r.value());
+                            this->push(194, r);
                             break;
                         default:
                             this->error();
@@ -7606,8 +7302,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -7616,7 +7311,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7627,8 +7322,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7637,31 +7331,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -7675,8 +7366,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7685,15 +7375,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(149, r.value());
+                            this->push(149, r);
                             break;
                         default:
                             this->error();
@@ -7704,8 +7393,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_3();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -7714,7 +7402,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7736,8 +7424,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -7746,7 +7433,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -7757,27 +7444,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -7798,8 +7482,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -7808,15 +7491,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(199, r.value());
+                            this->push(199, r);
                             break;
                         default:
                             this->error();
@@ -7827,8 +7509,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -7837,55 +7518,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -7904,8 +7579,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -7914,23 +7588,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -7947,8 +7619,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::TO:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -7957,23 +7628,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -7984,11 +7653,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(204, r.value());
+                            this->push(204, r);
                             break;
                         default:
                             this->error();
@@ -8010,8 +7678,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8020,7 +7687,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8042,8 +7709,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8052,7 +7718,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8063,27 +7729,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(34, r.value());
+                            this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(40, r.value());
+                            this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(41, r.value());
+                            this->push(41, r);
                             break;
                         default:
                             this->error();
@@ -8104,8 +7767,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8114,15 +7776,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(207, r.value());
+                            this->push(207, r);
                             break;
                         default:
                             this->error();
@@ -8133,8 +7794,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_18();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8143,55 +7803,49 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(49, r.value());
+                            this->push(49, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(50, r.value());
+                            this->push(50, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(51, r.value());
+                            this->push(51, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(52, r.value());
+                            this->push(52, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(53, r.value());
+                            this->push(53, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(54, r.value());
+                            this->push(54, r);
                             break;
                         default:
                             this->error();
@@ -8210,8 +7864,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8220,23 +7873,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(56, r.value());
+                            this->push(56, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(57, r.value());
+                            this->push(57, r);
                             break;
                         default:
                             this->error();
@@ -8253,8 +7904,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8263,23 +7913,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(59, r.value());
+                            this->push(59, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(60, r.value());
+                            this->push(60, r);
                             break;
                         default:
                             this->error();
@@ -8290,11 +7938,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(212, r.value());
+                            this->push(212, r);
                             break;
                         default:
                             this->error();
@@ -8316,8 +7963,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8326,7 +7972,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8348,8 +7994,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8358,7 +8003,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8369,11 +8014,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(213, r.value());
+                            this->push(213, r);
                             break;
                         default:
                             this->error();
@@ -8386,8 +8030,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8396,7 +8039,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8409,8 +8052,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -8419,7 +8061,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8430,8 +8072,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8440,23 +8081,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(170, r.value());
+                            this->push(170, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(171, r.value());
+                            this->push(171, r);
                             break;
                         default:
                             this->error();
@@ -8478,8 +8117,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8488,15 +8126,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(119, r.value());
+                            this->push(119, r);
                             break;
                         default:
                             this->error();
@@ -8507,11 +8144,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(216, r.value());
+                            this->push(216, r);
                             break;
                         default:
                             this->error();
@@ -8533,8 +8169,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -8543,7 +8178,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8555,8 +8190,7 @@ public:
                         case LNodeType::BR:
                         case LNodeType::THEN:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8565,7 +8199,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8585,8 +8219,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8595,7 +8228,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8613,8 +8246,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::THEN:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8623,7 +8255,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8634,8 +8266,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -8644,7 +8275,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8665,8 +8296,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8675,15 +8305,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -8704,8 +8333,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -8714,7 +8342,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8736,8 +8364,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8746,15 +8373,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(131, r.value());
+                            this->push(131, r);
                             break;
                         default:
                             this->error();
@@ -8765,11 +8391,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(220, r.value());
+                            this->push(220, r);
                             break;
                         default:
                             this->error();
@@ -8791,8 +8416,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -8801,7 +8425,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8813,8 +8437,7 @@ public:
                         case LNodeType::BR:
                         case LNodeType::DO:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8823,7 +8446,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8843,8 +8466,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8853,7 +8475,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8871,8 +8493,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -8881,7 +8502,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8892,8 +8513,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -8902,7 +8522,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8923,8 +8543,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -8933,15 +8552,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -8962,8 +8580,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -8972,7 +8589,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -8993,8 +8610,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -9003,7 +8619,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9025,8 +8641,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -9035,7 +8650,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9056,8 +8671,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9066,15 +8680,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -9088,8 +8701,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9098,15 +8710,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(149, r.value());
+                            this->push(149, r);
                             break;
                         default:
                             this->error();
@@ -9117,11 +8728,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(224, r.value());
+                            this->push(224, r);
                             break;
                         default:
                             this->error();
@@ -9135,8 +8745,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -9145,7 +8754,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9156,11 +8765,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(225, r.value());
+                            this->push(225, r);
                             break;
                         default:
                             this->error();
@@ -9181,8 +8789,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -9191,7 +8798,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9202,8 +8809,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9212,31 +8818,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -9257,8 +8860,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9267,15 +8869,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(199, r.value());
+                            this->push(199, r);
                             break;
                         default:
                             this->error();
@@ -9286,27 +8887,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -9317,27 +8915,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -9348,27 +8943,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -9379,27 +8971,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -9410,11 +8999,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(232, r.value());
+                            this->push(232, r);
                             break;
                         default:
                             this->error();
@@ -9435,8 +9023,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -9445,7 +9032,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9456,8 +9043,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9466,31 +9052,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(100, r.value());
+                            this->push(100, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(104, r.value());
+                            this->push(104, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(105, r.value());
+                            this->push(105, r);
                             break;
                         default:
                             this->error();
@@ -9511,8 +9094,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9521,15 +9103,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(207, r.value());
+                            this->push(207, r);
                             break;
                         default:
                             this->error();
@@ -9540,27 +9121,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -9571,27 +9149,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -9602,27 +9177,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -9643,8 +9215,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9653,15 +9224,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -9682,8 +9252,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9692,15 +9261,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -9711,8 +9279,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_55();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -9721,7 +9288,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9743,8 +9310,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -9753,7 +9319,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9776,8 +9342,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -9786,7 +9351,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9807,8 +9372,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9817,15 +9381,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -9836,8 +9399,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -9846,87 +9408,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(242, r.value());
+                            this->push(242, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(243, r.value());
+                            this->push(243, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(244, r.value());
+                            this->push(244, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(246, r.value());
+                            this->push(246, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(258, r.value());
+                            this->push(258, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(260, r.value());
+                            this->push(260, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(261, r.value());
+                            this->push(261, r);
                             break;
                         default:
                             this->error();
@@ -9948,8 +9500,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -9958,7 +9509,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -9981,8 +9532,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -9991,7 +9541,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10002,8 +9552,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10012,87 +9561,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -10113,8 +9652,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(6);
@@ -10123,7 +9661,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10137,8 +9675,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -10147,7 +9684,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10162,8 +9699,7 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10172,7 +9708,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10193,8 +9729,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10203,15 +9738,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(199, r.value());
+                            this->push(199, r);
                             break;
                         default:
                             this->error();
@@ -10222,11 +9756,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(286, r.value());
+                            this->push(286, r);
                             break;
                         default:
                             this->error();
@@ -10247,8 +9780,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -10257,7 +9789,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10268,8 +9800,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10278,7 +9809,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10297,8 +9828,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10307,7 +9837,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10324,8 +9854,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::TO:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10334,7 +9863,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10345,11 +9874,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(287, r.value());
+                            this->push(287, r);
                             break;
                         default:
                             this->error();
@@ -10370,8 +9898,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10380,15 +9907,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(207, r.value());
+                            this->push(207, r);
                             break;
                         default:
                             this->error();
@@ -10399,11 +9925,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(289, r.value());
+                            this->push(289, r);
                             break;
                         default:
                             this->error();
@@ -10424,8 +9949,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -10434,7 +9958,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10445,8 +9969,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_19();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10455,7 +9978,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10474,8 +9997,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10484,7 +10006,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10501,8 +10023,7 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -10511,7 +10032,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10522,8 +10043,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10532,87 +10052,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -10623,8 +10133,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10633,87 +10142,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -10734,8 +10233,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -10744,7 +10242,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10765,8 +10263,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10775,12 +10272,11 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10789,31 +10285,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(46, r.value());
+                            this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(47, r.value());
+                            this->push(47, r);
                             break;
                         default:
                             this->error();
@@ -10835,8 +10328,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -10845,7 +10337,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -10856,19 +10348,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(63, r.value());
+                            this->push(63, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(64, r.value());
+                            this->push(64, r);
                             break;
                         default:
                             this->error();
@@ -10879,19 +10369,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(66, r.value());
+                            this->push(66, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(67, r.value());
+                            this->push(67, r);
                             break;
                         default:
                             this->error();
@@ -10903,8 +10391,7 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -10913,87 +10400,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(242, r.value());
+                            this->push(242, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(243, r.value());
+                            this->push(243, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(244, r.value());
+                            this->push(244, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(246, r.value());
+                            this->push(246, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(258, r.value());
+                            this->push(258, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(260, r.value());
+                            this->push(260, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(261, r.value());
+                            this->push(261, r);
                             break;
                         default:
                             this->error();
@@ -11004,27 +10481,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -11035,11 +10509,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(298, r.value());
+                            this->push(298, r);
                             break;
                         default:
                             this->error();
@@ -11061,8 +10534,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11071,7 +10543,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11093,8 +10565,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11103,7 +10574,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11125,8 +10596,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11135,7 +10605,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11157,8 +10627,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11167,7 +10636,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11189,8 +10658,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11199,7 +10667,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11221,8 +10689,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11231,7 +10698,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11253,8 +10720,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11263,7 +10729,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11285,8 +10751,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11295,7 +10760,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11317,8 +10782,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11327,7 +10791,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11349,8 +10813,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11359,7 +10822,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11370,8 +10833,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -11380,23 +10842,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -11407,11 +10867,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(300, r.value());
+                            this->push(300, r);
                             break;
                         default:
                             this->error();
@@ -11422,27 +10881,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -11453,8 +10909,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -11463,23 +10918,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -11500,8 +10953,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -11510,12 +10962,11 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -11524,31 +10975,28 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(44, r.value());
+                            this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(46, r.value());
+                            this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(47, r.value());
+                            this->push(47, r);
                             break;
                         default:
                             this->error();
@@ -11569,8 +11017,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11579,7 +11026,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11590,19 +11037,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(63, r.value());
+                            this->push(63, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(64, r.value());
+                            this->push(64, r);
                             break;
                         default:
                             this->error();
@@ -11613,19 +11058,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(66, r.value());
+                            this->push(66, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(67, r.value());
+                            this->push(67, r);
                             break;
                         default:
                             this->error();
@@ -11636,27 +11079,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -11677,8 +11117,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11687,7 +11126,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11708,8 +11147,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11718,7 +11156,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11739,8 +11177,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11749,7 +11186,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11770,8 +11207,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11780,7 +11216,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11801,8 +11237,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11811,7 +11246,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11832,8 +11267,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11842,7 +11276,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11863,8 +11297,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11873,7 +11306,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11894,8 +11327,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11904,7 +11336,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11925,8 +11357,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11935,7 +11366,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11956,8 +11387,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -11966,7 +11396,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -11977,8 +11407,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -11987,23 +11416,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -12014,11 +11441,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(308, r.value());
+                            this->push(308, r);
                             break;
                         default:
                             this->error();
@@ -12039,8 +11465,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -12049,7 +11474,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12070,8 +11495,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(1);
@@ -12080,7 +11504,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12091,8 +11515,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12101,87 +11524,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -12192,27 +11605,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(82, r.value());
+                            this->push(82, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(87, r.value());
+                            this->push(87, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(88, r.value());
+                            this->push(88, r);
                             break;
                         default:
                             this->error();
@@ -12223,11 +11633,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(311, r.value());
+                            this->push(311, r);
                             break;
                         default:
                             this->error();
@@ -12238,8 +11647,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12248,23 +11656,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(77, r.value());
+                            this->push(77, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(78, r.value());
+                            this->push(78, r);
                             break;
                         default:
                             this->error();
@@ -12285,8 +11691,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -12295,7 +11700,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12317,8 +11722,7 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -12327,7 +11731,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12348,8 +11752,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12358,15 +11761,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -12387,8 +11789,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -12397,7 +11798,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12419,8 +11820,7 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -12429,7 +11829,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12440,11 +11840,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(314, r.value());
+                            this->push(314, r);
                             break;
                         default:
                             this->error();
@@ -12455,11 +11854,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(315, r.value());
+                            this->push(315, r);
                             break;
                         default:
                             this->error();
@@ -12470,11 +11868,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(316, r.value());
+                            this->push(316, r);
                             break;
                         default:
                             this->error();
@@ -12485,19 +11882,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(317, r.value());
+                            this->push(317, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(318, r.value());
+                            this->push(318, r);
                             break;
                         default:
                             this->error();
@@ -12508,11 +11903,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(319, r.value());
+                            this->push(319, r);
                             break;
                         default:
                             this->error();
@@ -12523,8 +11917,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -12533,15 +11926,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ELSE:
                             r = this->shift_ELSE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(320, r.value());
+                            this->push(320, r);
                             break;
                         default:
                             this->error();
@@ -12553,8 +11945,7 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12563,87 +11954,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(242, r.value());
+                            this->push(242, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(243, r.value());
+                            this->push(243, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(244, r.value());
+                            this->push(244, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(246, r.value());
+                            this->push(246, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(258, r.value());
+                            this->push(258, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(260, r.value());
+                            this->push(260, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(261, r.value());
+                            this->push(261, r);
                             break;
                         default:
                             this->error();
@@ -12654,8 +12035,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12664,15 +12044,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(124, r.value());
+                            this->push(124, r);
                             break;
                         default:
                             this->error();
@@ -12693,8 +12072,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12703,15 +12081,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -12722,11 +12099,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(324, r.value());
+                            this->push(324, r);
                             break;
                         default:
                             this->error();
@@ -12748,8 +12124,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12758,15 +12133,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -12777,8 +12151,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12787,15 +12160,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(136, r.value());
+                            this->push(136, r);
                             break;
                         default:
                             this->error();
@@ -12806,11 +12178,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(328, r.value());
+                            this->push(328, r);
                             break;
                         default:
                             this->error();
@@ -12821,11 +12192,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(329, r.value());
+                            this->push(329, r);
                             break;
                         default:
                             this->error();
@@ -12836,19 +12206,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(330, r.value());
+                            this->push(330, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(331, r.value());
+                            this->push(331, r);
                             break;
                         default:
                             this->error();
@@ -12859,11 +12227,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(332, r.value());
+                            this->push(332, r);
                             break;
                         default:
                             this->error();
@@ -12874,8 +12241,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12884,15 +12250,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(124, r.value());
+                            this->push(124, r);
                             break;
                         default:
                             this->error();
@@ -12903,11 +12268,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(334, r.value());
+                            this->push(334, r);
                             break;
                         default:
                             this->error();
@@ -12928,8 +12292,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12938,15 +12301,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -12957,8 +12319,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_51();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -12967,7 +12328,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -12978,8 +12339,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -12988,15 +12348,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(136, r.value());
+                            this->push(136, r);
                             break;
                         default:
                             this->error();
@@ -13017,8 +12376,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13027,15 +12385,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -13046,11 +12403,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(338, r.value());
+                            this->push(338, r);
                             break;
                         default:
                             this->error();
@@ -13061,8 +12417,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13071,87 +12426,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -13172,8 +12517,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13182,15 +12526,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -13211,8 +12554,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13221,15 +12563,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -13240,27 +12581,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -13271,27 +12609,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -13302,27 +12637,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -13333,8 +12665,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13343,23 +12674,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(170, r.value());
+                            this->push(170, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(171, r.value());
+                            this->push(171, r);
                             break;
                         default:
                             this->error();
@@ -13379,8 +12708,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13389,15 +12717,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(346, r.value());
+                            this->push(346, r);
                             break;
                         default:
                             this->error();
@@ -13409,8 +12736,7 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -13419,7 +12745,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13430,11 +12756,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(348, r.value());
+                            this->push(348, r);
                             break;
                         default:
                             this->error();
@@ -13455,8 +12780,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -13465,7 +12789,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13487,8 +12811,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13497,15 +12820,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -13527,8 +12849,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13537,15 +12858,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -13567,8 +12887,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -13577,7 +12896,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13588,11 +12907,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(351, r.value());
+                            this->push(351, r);
                             break;
                         default:
                             this->error();
@@ -13614,8 +12932,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13624,15 +12941,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -13643,27 +12959,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(110, r.value());
+                            this->push(110, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(111, r.value());
+                            this->push(111, r);
                             break;
                         default:
                             this->error();
@@ -13674,27 +12987,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(153, r.value());
+                            this->push(153, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(159, r.value());
+                            this->push(159, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(160, r.value());
+                            this->push(160, r);
                             break;
                         default:
                             this->error();
@@ -13705,27 +13015,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -13736,8 +13043,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13746,23 +13052,21 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(170, r.value());
+                            this->push(170, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(171, r.value());
+                            this->push(171, r);
                             break;
                         default:
                             this->error();
@@ -13773,11 +13077,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(357, r.value());
+                            this->push(357, r);
                             break;
                         default:
                             this->error();
@@ -13798,8 +13101,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13808,15 +13110,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -13837,8 +13138,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(3);
@@ -13847,7 +13147,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13858,11 +13158,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(359, r.value());
+                            this->push(359, r);
                             break;
                         default:
                             this->error();
@@ -13883,8 +13182,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -13893,7 +13191,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13914,8 +13212,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -13924,15 +13221,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -13943,11 +13239,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(361, r.value());
+                            this->push(361, r);
                             break;
                         default:
                             this->error();
@@ -13968,8 +13263,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -13978,7 +13272,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -13999,8 +13293,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -14009,7 +13302,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14020,11 +13313,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(362, r.value());
+                            this->push(362, r);
                             break;
                         default:
                             this->error();
@@ -14035,11 +13327,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(363, r.value());
+                            this->push(363, r);
                             break;
                         default:
                             this->error();
@@ -14050,11 +13341,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(364, r.value());
+                            this->push(364, r);
                             break;
                         default:
                             this->error();
@@ -14065,11 +13355,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(365, r.value());
+                            this->push(365, r);
                             break;
                         default:
                             this->error();
@@ -14089,8 +13378,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14099,15 +13387,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(346, r.value());
+                            this->push(346, r);
                             break;
                         default:
                             this->error();
@@ -14118,83 +13405,73 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -14215,8 +13492,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14225,15 +13501,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14255,8 +13530,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -14265,7 +13539,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14287,8 +13561,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -14297,7 +13570,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14318,8 +13591,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14328,15 +13600,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14358,8 +13629,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -14368,7 +13638,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14379,11 +13649,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(370, r.value());
+                            this->push(370, r);
                             break;
                         default:
                             this->error();
@@ -14394,11 +13663,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(371, r.value());
+                            this->push(371, r);
                             break;
                         default:
                             this->error();
@@ -14409,11 +13677,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(372, r.value());
+                            this->push(372, r);
                             break;
                         default:
                             this->error();
@@ -14424,11 +13691,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(373, r.value());
+                            this->push(373, r);
                             break;
                         default:
                             this->error();
@@ -14449,8 +13715,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14459,15 +13724,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14488,8 +13752,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -14498,7 +13761,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14519,8 +13782,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14529,15 +13791,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14558,8 +13819,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(4);
@@ -14568,7 +13828,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14589,8 +13849,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14599,15 +13858,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -14629,8 +13887,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14639,15 +13896,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -14658,27 +13914,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -14699,8 +13952,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14709,15 +13961,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14738,8 +13989,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14748,15 +13998,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -14776,8 +14025,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -14786,7 +14034,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -14797,8 +14045,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14807,87 +14054,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -14898,8 +14135,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -14908,87 +14144,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(382, r.value());
+                            this->push(382, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -14999,8 +14225,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15009,87 +14234,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -15110,8 +14325,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15120,15 +14334,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -15139,27 +14352,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(161, r.value());
+                            this->push(161, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(167, r.value());
+                            this->push(167, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(168, r.value());
+                            this->push(168, r);
                             break;
                         default:
                             this->error();
@@ -15180,8 +14390,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15190,15 +14399,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -15219,8 +14427,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15229,15 +14436,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -15248,8 +14454,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15258,87 +14463,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(242, r.value());
+                            this->push(242, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(243, r.value());
+                            this->push(243, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(244, r.value());
+                            this->push(244, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(246, r.value());
+                            this->push(246, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(258, r.value());
+                            this->push(258, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(260, r.value());
+                            this->push(260, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(261, r.value());
+                            this->push(261, r);
                             break;
                         default:
                             this->error();
@@ -15349,8 +14544,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15359,87 +14553,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -15460,8 +14644,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(11);
@@ -15470,7 +14653,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -15492,8 +14675,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(6);
@@ -15502,7 +14684,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -15513,11 +14695,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(393, r.value());
+                            this->push(393, r);
                             break;
                         default:
                             this->error();
@@ -15528,8 +14709,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15538,87 +14718,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -15629,8 +14799,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15639,87 +14808,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -15730,11 +14889,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(396, r.value());
+                            this->push(396, r);
                             break;
                         default:
                             this->error();
@@ -15745,27 +14903,24 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(68, r.value());
+                            this->push(68, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(74, r.value());
+                            this->push(74, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(75, r.value());
+                            this->push(75, r);
                             break;
                         default:
                             this->error();
@@ -15776,11 +14931,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(398, r.value());
+                            this->push(398, r);
                             break;
                         default:
                             this->error();
@@ -15791,8 +14945,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15801,87 +14954,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(382, r.value());
+                            this->push(382, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -15892,11 +15035,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(400, r.value());
+                            this->push(400, r);
                             break;
                         default:
                             this->error();
@@ -15917,8 +15059,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(6);
@@ -15927,7 +15068,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -15938,11 +15079,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(401, r.value());
+                            this->push(401, r);
                             break;
                         default:
                             this->error();
@@ -15953,8 +15093,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -15963,87 +15102,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -16054,8 +15183,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16064,87 +15192,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -16156,8 +15274,7 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16166,87 +15283,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(242, r.value());
+                            this->push(242, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(243, r.value());
+                            this->push(243, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(244, r.value());
+                            this->push(244, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(246, r.value());
+                            this->push(246, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(258, r.value());
+                            this->push(258, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(260, r.value());
+                            this->push(260, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(261, r.value());
+                            this->push(261, r);
                             break;
                         default:
                             this->error();
@@ -16257,11 +15364,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(405, r.value());
+                            this->push(405, r);
                             break;
                         default:
                             this->error();
@@ -16272,11 +15378,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(406, r.value());
+                            this->push(406, r);
                             break;
                         default:
                             this->error();
@@ -16297,8 +15402,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16307,15 +15411,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -16326,11 +15429,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(408, r.value());
+                            this->push(408, r);
                             break;
                         default:
                             this->error();
@@ -16341,11 +15443,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(409, r.value());
+                            this->push(409, r);
                             break;
                         default:
                             this->error();
@@ -16366,8 +15467,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16376,15 +15476,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(1, r.value());
+                            this->push(1, r);
                             break;
                         default:
                             this->error();
@@ -16395,8 +15494,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16405,15 +15503,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(124, r.value());
+                            this->push(124, r);
                             break;
                         default:
                             this->error();
@@ -16435,8 +15532,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16445,15 +15541,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -16464,8 +15559,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -16474,7 +15568,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -16496,8 +15590,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16506,15 +15599,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -16535,8 +15627,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16545,15 +15636,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -16564,11 +15654,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(415, r.value());
+                            this->push(415, r);
                             break;
                         default:
                             this->error();
@@ -16579,11 +15668,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(416, r.value());
+                            this->push(416, r);
                             break;
                         default:
                             this->error();
@@ -16594,8 +15682,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(2);
@@ -16604,15 +15691,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::ELSE:
                             r = this->shift_ELSE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(417, r.value());
+                            this->push(417, r);
                             break;
                         default:
                             this->error();
@@ -16633,8 +15719,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16643,15 +15728,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -16672,8 +15756,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16682,15 +15765,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -16701,8 +15783,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16711,87 +15792,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -16813,8 +15884,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16823,15 +15893,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -16853,8 +15922,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -16863,15 +15931,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -16892,8 +15959,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(13);
@@ -16902,7 +15968,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -16913,11 +15979,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(423, r.value());
+                            this->push(423, r);
                             break;
                         default:
                             this->error();
@@ -16939,8 +16004,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -16949,7 +16013,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -16971,8 +16035,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -16981,7 +16044,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -16992,8 +16055,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17002,87 +16064,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -17103,8 +16155,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17113,15 +16164,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -17142,8 +16192,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17152,15 +16201,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -17180,8 +16228,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17190,15 +16237,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(346, r.value());
+                            this->push(346, r);
                             break;
                         default:
                             this->error();
@@ -17219,8 +16265,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -17229,7 +16274,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17250,8 +16295,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(8);
@@ -17260,7 +16304,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17271,11 +16315,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(428, r.value());
+                            this->push(428, r);
                             break;
                         default:
                             this->error();
@@ -17297,8 +16340,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -17307,7 +16349,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17329,8 +16371,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -17339,7 +16380,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17360,8 +16401,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17370,15 +16410,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -17389,11 +16428,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(430, r.value());
+                            this->push(430, r);
                             break;
                         default:
                             this->error();
@@ -17414,8 +16452,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -17424,7 +16461,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17445,8 +16482,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(9);
@@ -17455,7 +16491,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17466,83 +16502,73 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -17564,8 +16590,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17574,15 +16599,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(325, r.value());
+                            this->push(325, r);
                             break;
                         default:
                             this->error();
@@ -17593,8 +16617,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17603,87 +16626,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(382, r.value());
+                            this->push(382, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -17704,8 +16717,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17714,15 +16726,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -17733,8 +16744,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17743,87 +16753,77 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(5, r.value());
+                            this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(263, r.value());
+                            this->push(263, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(264, r.value());
+                            this->push(264, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(265, r.value());
+                            this->push(265, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(266, r.value());
+                            this->push(266, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(277, r.value());
+                            this->push(277, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(30, r.value());
+                            this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(31, r.value());
+                            this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(282, r.value());
+                            this->push(282, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(284, r.value());
+                            this->push(284, r);
                             break;
                         default:
                             this->error();
@@ -17845,8 +16845,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(11);
@@ -17855,7 +16854,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17876,8 +16875,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(11);
@@ -17886,7 +16884,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17897,11 +16895,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(435, r.value());
+                            this->push(435, r);
                             break;
                         default:
                             this->error();
@@ -17922,8 +16919,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(0);
@@ -17932,15 +16928,14 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push(217, r.value());
+                            this->push(217, r);
                             break;
                         default:
                             this->error();
@@ -17961,8 +16956,7 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop(13);
@@ -17971,7 +16965,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;
                         default:
                             this->error();
@@ -17991,240 +16985,240 @@ public:
     }
 
     // Atom : BRAC Expr KET FCalls
-    std::optional<std::shared_ptr<LNode>> reduce_0();
+    std::shared_ptr<LNode> reduce_0();
 
     // Atom : Var FCalls
-    std::optional<std::shared_ptr<LNode>> reduce_1();
+    std::shared_ptr<LNode> reduce_1();
 
     // Atoms : 
-    std::optional<std::shared_ptr<LNode>> reduce_2();
+    std::shared_ptr<LNode> reduce_2();
 
     // Atoms : Atom Atoms
-    std::optional<std::shared_ptr<LNode>> reduce_3();
+    std::shared_ptr<LNode> reduce_3();
 
     // BStmt : BREAK
-    std::optional<std::shared_ptr<LNode>> reduce_4();
+    std::shared_ptr<LNode> reduce_4();
 
     // BinOP0 : DIV
-    std::optional<std::shared_ptr<LNode>> reduce_5();
+    std::shared_ptr<LNode> reduce_5();
 
     // BinOP0 : MUL
-    std::optional<std::shared_ptr<LNode>> reduce_6();
+    std::shared_ptr<LNode> reduce_6();
 
     // BinOP1 : ADD
-    std::optional<std::shared_ptr<LNode>> reduce_7();
+    std::shared_ptr<LNode> reduce_7();
 
     // BinOP1 : SUB
-    std::optional<std::shared_ptr<LNode>> reduce_8();
+    std::shared_ptr<LNode> reduce_8();
 
     // BinOP2 : EQ
-    std::optional<std::shared_ptr<LNode>> reduce_9();
+    std::shared_ptr<LNode> reduce_9();
 
     // BinOP2 : G
-    std::optional<std::shared_ptr<LNode>> reduce_10();
+    std::shared_ptr<LNode> reduce_10();
 
     // BinOP2 : GEQ
-    std::optional<std::shared_ptr<LNode>> reduce_11();
+    std::shared_ptr<LNode> reduce_11();
 
     // BinOP2 : L
-    std::optional<std::shared_ptr<LNode>> reduce_12();
+    std::shared_ptr<LNode> reduce_12();
 
     // BinOP2 : LEQ
-    std::optional<std::shared_ptr<LNode>> reduce_13();
+    std::shared_ptr<LNode> reduce_13();
 
     // BinOP2 : NEQ
-    std::optional<std::shared_ptr<LNode>> reduce_14();
+    std::shared_ptr<LNode> reduce_14();
 
     // Brs : 
-    std::optional<std::shared_ptr<LNode>> reduce_15();
+    std::shared_ptr<LNode> reduce_15();
 
     // Brs : BR Brs
-    std::optional<std::shared_ptr<LNode>> reduce_16();
+    std::shared_ptr<LNode> reduce_16();
 
     // EStmt : Var Vars EQUAL Expr BR Brs
-    std::optional<std::shared_ptr<LNode>> reduce_17();
+    std::shared_ptr<LNode> reduce_17();
 
     // Expr : Expr1
-    std::optional<std::shared_ptr<LNode>> reduce_18();
+    std::shared_ptr<LNode> reduce_18();
 
     // Expr : Expr1 BinOP2 Expr
-    std::optional<std::shared_ptr<LNode>> reduce_19();
+    std::shared_ptr<LNode> reduce_19();
 
     // Expr0 : Atom
-    std::optional<std::shared_ptr<LNode>> reduce_20();
+    std::shared_ptr<LNode> reduce_20();
 
     // Expr0 : Atom BinOP0 Expr0
-    std::optional<std::shared_ptr<LNode>> reduce_21();
+    std::shared_ptr<LNode> reduce_21();
 
     // Expr1 : Expr0
-    std::optional<std::shared_ptr<LNode>> reduce_22();
+    std::shared_ptr<LNode> reduce_22();
 
     // Expr1 : Expr0 BinOP1 Expr1
-    std::optional<std::shared_ptr<LNode>> reduce_23();
+    std::shared_ptr<LNode> reduce_23();
 
     // F0Stmt : FOR Var EQUAL Expr TO Expr DO Brs Stmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_24();
+    std::shared_ptr<LNode> reduce_24();
 
     // F1Stmt : FOR Var IN Expr DO Brs Stmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_25();
+    std::shared_ptr<LNode> reduce_25();
 
     // FCStmt : FUNCTION Var FBRAC Vars KET Brs Stmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_26();
+    std::shared_ptr<LNode> reduce_26();
 
     // FCall : FBRAC Atoms KET
-    std::optional<std::shared_ptr<LNode>> reduce_27();
+    std::shared_ptr<LNode> reduce_27();
 
     // FCalls : 
-    std::optional<std::shared_ptr<LNode>> reduce_28();
+    std::shared_ptr<LNode> reduce_28();
 
     // FCalls : FCall FCalls
-    std::optional<std::shared_ptr<LNode>> reduce_29();
+    std::shared_ptr<LNode> reduce_29();
 
     // IEStmt : IF Expr Brs THEN Brs NIEStmt NIEStmts ELSE Brs Stmt Stmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_30();
+    std::shared_ptr<LNode> reduce_30();
 
     // IStmt : IF Expr Brs THEN Brs NIEStmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_31();
+    std::shared_ptr<LNode> reduce_31();
 
     // NIEStmt : BStmt
-    std::optional<std::shared_ptr<LNode>> reduce_32();
+    std::shared_ptr<LNode> reduce_32();
 
     // NIEStmt : EStmt
-    std::optional<std::shared_ptr<LNode>> reduce_33();
+    std::shared_ptr<LNode> reduce_33();
 
     // NIEStmt : F0Stmt
-    std::optional<std::shared_ptr<LNode>> reduce_34();
+    std::shared_ptr<LNode> reduce_34();
 
     // NIEStmt : F1Stmt
-    std::optional<std::shared_ptr<LNode>> reduce_35();
+    std::shared_ptr<LNode> reduce_35();
 
     // NIEStmt : FCStmt
-    std::optional<std::shared_ptr<LNode>> reduce_36();
+    std::shared_ptr<LNode> reduce_36();
 
     // NIEStmt : IStmt
-    std::optional<std::shared_ptr<LNode>> reduce_37();
+    std::shared_ptr<LNode> reduce_37();
 
     // NIEStmt : RStmt
-    std::optional<std::shared_ptr<LNode>> reduce_38();
+    std::shared_ptr<LNode> reduce_38();
 
     // NIEStmt : SStmt
-    std::optional<std::shared_ptr<LNode>> reduce_39();
+    std::shared_ptr<LNode> reduce_39();
 
     // NIEStmt : WStmt
-    std::optional<std::shared_ptr<LNode>> reduce_40();
+    std::shared_ptr<LNode> reduce_40();
 
     // NIEStmt : YStmt
-    std::optional<std::shared_ptr<LNode>> reduce_41();
+    std::shared_ptr<LNode> reduce_41();
 
     // NIEStmts : 
-    std::optional<std::shared_ptr<LNode>> reduce_42();
+    std::shared_ptr<LNode> reduce_42();
 
     // NIEStmts : NIEStmt NIEStmts
-    std::optional<std::shared_ptr<LNode>> reduce_43();
+    std::shared_ptr<LNode> reduce_43();
 
     // RStmt : RETURN Vars BR Brs
-    std::optional<std::shared_ptr<LNode>> reduce_44();
+    std::shared_ptr<LNode> reduce_44();
 
     // Root : Start
-    std::optional<std::shared_ptr<LNode>> reduce_45();
+    std::shared_ptr<LNode> reduce_45();
 
     // SStmt : Expr BR Brs
-    std::optional<std::shared_ptr<LNode>> reduce_46();
+    std::shared_ptr<LNode> reduce_46();
 
     // Start : Brs Stmts
-    std::optional<std::shared_ptr<LNode>> reduce_47();
+    std::shared_ptr<LNode> reduce_47();
 
     // Stmt : IEStmt
-    std::optional<std::shared_ptr<LNode>> reduce_48();
+    std::shared_ptr<LNode> reduce_48();
 
     // Stmt : NIEStmt
-    std::optional<std::shared_ptr<LNode>> reduce_49();
+    std::shared_ptr<LNode> reduce_49();
 
     // Stmts : 
-    std::optional<std::shared_ptr<LNode>> reduce_50();
+    std::shared_ptr<LNode> reduce_50();
 
     // Stmts : Stmt Stmts
-    std::optional<std::shared_ptr<LNode>> reduce_51();
+    std::shared_ptr<LNode> reduce_51();
 
     // Var : INT
-    std::optional<std::shared_ptr<LNode>> reduce_52();
+    std::shared_ptr<LNode> reduce_52();
 
     // Var : VAR
-    std::optional<std::shared_ptr<LNode>> reduce_53();
+    std::shared_ptr<LNode> reduce_53();
 
     // Vars : 
-    std::optional<std::shared_ptr<LNode>> reduce_54();
+    std::shared_ptr<LNode> reduce_54();
 
     // Vars : Var Vars
-    std::optional<std::shared_ptr<LNode>> reduce_55();
+    std::shared_ptr<LNode> reduce_55();
 
     // WStmt : WHILE Expr Brs DO Brs Stmts END Brs
-    std::optional<std::shared_ptr<LNode>> reduce_56();
+    std::shared_ptr<LNode> reduce_56();
 
     // YStmt : YIELD Vars BR Brs
-    std::optional<std::shared_ptr<LNode>> reduce_57();
+    std::shared_ptr<LNode> reduce_57();
 
-    std::optional<std::shared_ptr<LNode>> shift_ADD();
+    std::shared_ptr<LNode> shift_ADD();
 
-    std::optional<std::shared_ptr<LNode>> shift_BR();
+    std::shared_ptr<LNode> shift_BR();
 
-    std::optional<std::shared_ptr<LNode>> shift_BRAC();
+    std::shared_ptr<LNode> shift_BRAC();
 
-    std::optional<std::shared_ptr<LNode>> shift_BREAK();
+    std::shared_ptr<LNode> shift_BREAK();
 
-    std::optional<std::shared_ptr<LNode>> shift_DIV();
+    std::shared_ptr<LNode> shift_DIV();
 
-    std::optional<std::shared_ptr<LNode>> shift_DO();
+    std::shared_ptr<LNode> shift_DO();
 
-    std::optional<std::shared_ptr<LNode>> shift_ELSE();
+    std::shared_ptr<LNode> shift_ELSE();
 
-    std::optional<std::shared_ptr<LNode>> shift_END();
+    std::shared_ptr<LNode> shift_END();
 
-    std::optional<std::shared_ptr<LNode>> shift_EOFF();
+    std::shared_ptr<LNode> shift_EOFF();
 
-    std::optional<std::shared_ptr<LNode>> shift_EQ();
+    std::shared_ptr<LNode> shift_EQ();
 
-    std::optional<std::shared_ptr<LNode>> shift_EQUAL();
+    std::shared_ptr<LNode> shift_EQUAL();
 
-    std::optional<std::shared_ptr<LNode>> shift_FBRAC();
+    std::shared_ptr<LNode> shift_FBRAC();
 
-    std::optional<std::shared_ptr<LNode>> shift_FOR();
+    std::shared_ptr<LNode> shift_FOR();
 
-    std::optional<std::shared_ptr<LNode>> shift_FUNCTION();
+    std::shared_ptr<LNode> shift_FUNCTION();
 
-    std::optional<std::shared_ptr<LNode>> shift_G();
+    std::shared_ptr<LNode> shift_G();
 
-    std::optional<std::shared_ptr<LNode>> shift_GEQ();
+    std::shared_ptr<LNode> shift_GEQ();
 
-    std::optional<std::shared_ptr<LNode>> shift_IF();
+    std::shared_ptr<LNode> shift_IF();
 
-    std::optional<std::shared_ptr<LNode>> shift_IN();
+    std::shared_ptr<LNode> shift_IN();
 
-    std::optional<std::shared_ptr<LNode>> shift_INT();
+    std::shared_ptr<LNode> shift_INT();
 
-    std::optional<std::shared_ptr<LNode>> shift_KET();
+    std::shared_ptr<LNode> shift_KET();
 
-    std::optional<std::shared_ptr<LNode>> shift_L();
+    std::shared_ptr<LNode> shift_L();
 
-    std::optional<std::shared_ptr<LNode>> shift_LEQ();
+    std::shared_ptr<LNode> shift_LEQ();
 
-    std::optional<std::shared_ptr<LNode>> shift_MUL();
+    std::shared_ptr<LNode> shift_MUL();
 
-    std::optional<std::shared_ptr<LNode>> shift_NEQ();
+    std::shared_ptr<LNode> shift_NEQ();
 
-    std::optional<std::shared_ptr<LNode>> shift_RETURN();
+    std::shared_ptr<LNode> shift_RETURN();
 
-    std::optional<std::shared_ptr<LNode>> shift_SUB();
+    std::shared_ptr<LNode> shift_SUB();
 
-    std::optional<std::shared_ptr<LNode>> shift_THEN();
+    std::shared_ptr<LNode> shift_THEN();
 
-    std::optional<std::shared_ptr<LNode>> shift_TO();
+    std::shared_ptr<LNode> shift_TO();
 
-    std::optional<std::shared_ptr<LNode>> shift_VAR();
+    std::shared_ptr<LNode> shift_VAR();
 
-    std::optional<std::shared_ptr<LNode>> shift_WHILE();
+    std::shared_ptr<LNode> shift_WHILE();
 
-    std::optional<std::shared_ptr<LNode>> shift_YIELD();
+    std::shared_ptr<LNode> shift_YIELD();
 };
 
 #endif

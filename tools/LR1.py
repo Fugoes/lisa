@@ -267,12 +267,12 @@ enum class LNodeType {
 lparser_cpp_template = """#include "LParser.h"
 
 {% for rule_str in g["rule_str"] %}
-std::optional<std::shared_ptr<LNode>> LParser::reduce_{{ loop.index - 1 }}() {
+std::shared_ptr<LNode> LParser::reduce_{{ loop.index - 1 }}() {
     // {{ rule_str }}
     return std::make_shared<LNode>();
 }
 {% endfor %}{% for T in g["Ts"] %}
-std::optional<std::shared_ptr<LNode>> LParser::shift_{{ T }}() {
+std::shared_ptr<LNode> LParser::shift_{{ T }}() {
     this->move();
     return std::make_shared<LNode>();
 }
@@ -354,21 +354,19 @@ public:
 
     void parse() {
         this->push(0, nullptr);
-        std::optional<std::shared_ptr<LNode>> r;
+        std::shared_ptr<LNode> r;
         int flag = -1;
         while (!this->terminated) {
             switch (this->top_state()) {
                 {% for state, lines in g["parse"] %}case {{ state }}:
                     switch (this->peek.type) {% raw %}{{% endraw %}{% for is_case, is_shift, is_reduce, a, b in lines %}
                         {% if is_case %}case LNodeType::{{ a }}:{% elif is_shift %}    r = this->shift_{{ a }}();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
-                            this->push({{ b }}, r.value());
+                            this->push({{ b }}, r);
                             break;{% else %}    r = this->reduce_{{ a }}();
-                            if (!r.has_value()) {
-                                this->error();
+                            if (this->terminated) {
                                 break;
                             }
                             this->pop({{ g["pop_num"][a] }});
@@ -377,7 +375,7 @@ public:
                                 this->error();
                                 break;
                             }
-                            this->push(flag, r.value());
+                            this->push(flag, r);
                             break;{% endif %}{% endfor %}
                         default:
                             this->error();
@@ -397,9 +395,9 @@ public:
     }{% for rule_str in g["rule_str"] %}
 
     // {{ rule_str }}
-    std::optional<std::shared_ptr<LNode>> reduce_{{ loop.index - 1 }}();{% endfor %}{% for T in g["Ts"] %}
+    std::shared_ptr<LNode> reduce_{{ loop.index - 1 }}();{% endfor %}{% for T in g["Ts"] %}
 
-    std::optional<std::shared_ptr<LNode>> shift_{{ T }}();{% endfor %}
+    std::shared_ptr<LNode> shift_{{ T }}();{% endfor %}
 };
 
 #endif
