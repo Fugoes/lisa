@@ -1,0 +1,68 @@
+// use uppercase words as terminators, mixed case words as non-terminators
+// E as empty
+// Always include 'Root : Start'!
+Root     : Start
+Start    : Brs Stmts
+// basic token types
+BinOP0   : MUL
+         | DIV
+BinOP1   : ADD
+         | SUB
+BinOP2   : L
+         | G
+         | LEQ
+         | GEQ
+         | EQ
+         | NEQ
+Var      : VAR
+         | INT
+// variables and breaklines
+Vars     : Var Vars
+         | E
+Brs      : BR Brs
+         | E
+// function call
+FCall    : FBRAC Atoms KET
+FCalls   : FCall FCalls
+         | E
+// atom for expressions
+Atom     : Var FCalls
+         | BRAC Expr KET FCalls
+Atoms    : Atom Atoms
+         | E
+// expressions with different levels of binary operators
+Expr0    : Atom BinOP0 Expr0
+         | Atom
+Expr1    : Expr0 BinOP1 Expr1
+         | Expr0
+Expr     : Expr1 BinOP2 Expr
+         | Expr1
+// statement
+EStmt    : Var Vars EQUAL Expr BR Brs
+SStmt    : Expr BR Brs
+FCStmt   : FUNCTION Var FBRAC Vars KET Brs Stmts END Brs
+WStmt    : WHLIE Expr Brs DO Brs Stmts END Brs
+F0Stmt   : FOR Var EQUAL Expr TO Expr DO Brs Stmts END Brs
+F1Stmt   : FOR Var IN Expr DO Brs Stmts END Brs
+RStmt    : RETURN Vars BR Brs
+YStmt    : YIELD Vars BR Brs
+BStmt    : BREAK
+IStmt    : IF Expr Brs THEN Brs NIEStmts END Brs
+NIEStmt  : EStmt
+         | SStmt
+         | FCStmt
+         | WStmt
+         | RStmt
+         | F0Stmt
+         | F1Stmt
+         | YStmt
+         | BStmt
+         | IStmt
+IEStmt   : IF Expr Brs THEN Brs NIEStmt NIEStmts ELSE Brs Stmt Stmts END Brs
+Stmt     : NIEStmt
+         | IEStmt
+// statements
+NIEStmts : NIEStmt NIEStmts
+         | E
+Stmts    : Stmt Stmts
+         | E
