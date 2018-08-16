@@ -313,6 +313,10 @@ public:
         this->terminated = true;
     }
 
+    std::shared_ptr<LNode> get_node(int i) {
+        return this->node_stack[this->node_stack.size() - i];
+    }
+
     void move() {
         this->peek = this->lexer->next_token().value();
         std::cout << this->peek.str() << std::endl;

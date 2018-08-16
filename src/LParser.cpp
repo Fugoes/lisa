@@ -238,7 +238,6 @@ std::optional<std::shared_ptr<LNode>> LParser::reduce_46() {
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_47() {
     // Start : Brs Stmts
-    this->accept();
     return std::make_shared<LNode>();
 }
 
