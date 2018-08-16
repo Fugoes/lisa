@@ -62,6 +62,7 @@ public:
                     case LNodeType::Brs:
                         return 3;
                     default:
+                        this->error();
                         return -1;
                 }
             case 1:
@@ -69,6 +70,7 @@ public:
                     case LNodeType::Brs:
                         return 4;
                     default:
+                        this->error();
                         return -1;
                 }
             case 3:
@@ -112,6 +114,7 @@ public:
                     case LNodeType::Stmt:
                         return 29;
                     default:
+                        this->error();
                         return -1;
                 }
             case 5:
@@ -127,6 +130,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 6:
@@ -140,6 +144,7 @@ public:
                     case LNodeType::Var:
                         return 48;
                     default:
+                        this->error();
                         return -1;
                 }
             case 8:
@@ -147,6 +152,7 @@ public:
                     case LNodeType::BinOP2:
                         return 56;
                     default:
+                        this->error();
                         return -1;
                 }
             case 9:
@@ -154,6 +160,7 @@ public:
                     case LNodeType::BinOP0:
                         return 59;
                     default:
+                        this->error();
                         return -1;
                 }
             case 10:
@@ -161,6 +168,7 @@ public:
                     case LNodeType::BinOP1:
                         return 62;
                     default:
+                        this->error();
                         return -1;
                 }
             case 11:
@@ -168,6 +176,7 @@ public:
                     case LNodeType::Var:
                         return 63;
                     default:
+                        this->error();
                         return -1;
                 }
             case 12:
@@ -175,6 +184,7 @@ public:
                     case LNodeType::Var:
                         return 66;
                     default:
+                        this->error();
                         return -1;
                 }
             case 13:
@@ -190,6 +200,7 @@ public:
                     case LNodeType::Expr:
                         return 74;
                     default:
+                        this->error();
                         return -1;
                 }
             case 24:
@@ -199,6 +210,7 @@ public:
                     case LNodeType::Var:
                         return 80;
                     default:
+                        this->error();
                         return -1;
                 }
             case 29:
@@ -242,6 +254,7 @@ public:
                     case LNodeType::Stmts:
                         return 82;
                     default:
+                        this->error();
                         return -1;
                 }
             case 32:
@@ -257,6 +270,7 @@ public:
                     case LNodeType::Expr:
                         return 90;
                     default:
+                        this->error();
                         return -1;
                 }
             case 33:
@@ -266,6 +280,7 @@ public:
                     case LNodeType::Vars:
                         return 91;
                     default:
+                        this->error();
                         return -1;
                 }
             case 34:
@@ -281,6 +296,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 35:
@@ -290,6 +306,7 @@ public:
                     case LNodeType::FCall:
                         return 95;
                     default:
+                        this->error();
                         return -1;
                 }
             case 37:
@@ -297,6 +314,7 @@ public:
                     case LNodeType::BinOP2:
                         return 97;
                     default:
+                        this->error();
                         return -1;
                 }
             case 38:
@@ -304,6 +322,7 @@ public:
                     case LNodeType::BinOP0:
                         return 98;
                     default:
+                        this->error();
                         return -1;
                 }
             case 39:
@@ -311,6 +330,7 @@ public:
                     case LNodeType::BinOP1:
                         return 99;
                     default:
+                        this->error();
                         return -1;
                 }
             case 44:
@@ -322,6 +342,7 @@ public:
                     case LNodeType::Atoms:
                         return 104;
                     default:
+                        this->error();
                         return -1;
                 }
             case 45:
@@ -331,6 +352,7 @@ public:
                     case LNodeType::FCalls:
                         return 107;
                     default:
+                        this->error();
                         return -1;
                 }
             case 48:
@@ -340,6 +362,7 @@ public:
                     case LNodeType::Vars:
                         return 108;
                     default:
+                        this->error();
                         return -1;
                 }
             case 49:
@@ -347,6 +370,7 @@ public:
                     case LNodeType::Brs:
                         return 109;
                     default:
+                        this->error();
                         return -1;
                 }
             case 56:
@@ -362,6 +386,7 @@ public:
                     case LNodeType::Expr0:
                         return 10;
                     default:
+                        this->error();
                         return -1;
                 }
             case 59:
@@ -373,6 +398,7 @@ public:
                     case LNodeType::Expr0:
                         return 114;
                     default:
+                        this->error();
                         return -1;
                 }
             case 62:
@@ -386,6 +412,7 @@ public:
                     case LNodeType::Expr1:
                         return 115;
                     default:
+                        this->error();
                         return -1;
                 }
             case 69:
@@ -401,6 +428,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 70:
@@ -410,6 +438,7 @@ public:
                     case LNodeType::FCall:
                         return 122;
                     default:
+                        this->error();
                         return -1;
                 }
             case 71:
@@ -417,6 +446,7 @@ public:
                     case LNodeType::BinOP2:
                         return 123;
                     default:
+                        this->error();
                         return -1;
                 }
             case 72:
@@ -424,6 +454,7 @@ public:
                     case LNodeType::BinOP0:
                         return 124;
                     default:
+                        this->error();
                         return -1;
                 }
             case 73:
@@ -431,6 +462,7 @@ public:
                     case LNodeType::BinOP1:
                         return 125;
                     default:
+                        this->error();
                         return -1;
                 }
             case 74:
@@ -438,6 +470,7 @@ public:
                     case LNodeType::Brs:
                         return 127;
                     default:
+                        this->error();
                         return -1;
                 }
             case 80:
@@ -447,6 +480,7 @@ public:
                     case LNodeType::Vars:
                         return 129;
                     default:
+                        this->error();
                         return -1;
                 }
             case 81:
@@ -454,6 +488,7 @@ public:
                     case LNodeType::Brs:
                         return 130;
                     default:
+                        this->error();
                         return -1;
                 }
             case 83:
@@ -469,6 +504,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 84:
@@ -478,6 +514,7 @@ public:
                     case LNodeType::FCall:
                         return 134;
                     default:
+                        this->error();
                         return -1;
                 }
             case 85:
@@ -485,6 +522,7 @@ public:
                     case LNodeType::BinOP2:
                         return 135;
                     default:
+                        this->error();
                         return -1;
                 }
             case 86:
@@ -492,6 +530,7 @@ public:
                     case LNodeType::BinOP0:
                         return 136;
                     default:
+                        this->error();
                         return -1;
                 }
             case 87:
@@ -499,6 +538,7 @@ public:
                     case LNodeType::BinOP1:
                         return 137;
                     default:
+                        this->error();
                         return -1;
                 }
             case 90:
@@ -506,6 +546,7 @@ public:
                     case LNodeType::Brs:
                         return 139;
                     default:
+                        this->error();
                         return -1;
                 }
             case 94:
@@ -517,6 +558,7 @@ public:
                     case LNodeType::Atoms:
                         return 142;
                     default:
+                        this->error();
                         return -1;
                 }
             case 95:
@@ -526,6 +568,7 @@ public:
                     case LNodeType::FCalls:
                         return 143;
                     default:
+                        this->error();
                         return -1;
                 }
             case 96:
@@ -535,6 +578,7 @@ public:
                     case LNodeType::FCall:
                         return 45;
                     default:
+                        this->error();
                         return -1;
                 }
             case 97:
@@ -550,6 +594,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 98:
@@ -561,6 +606,7 @@ public:
                     case LNodeType::Expr0:
                         return 146;
                     default:
+                        this->error();
                         return -1;
                 }
             case 99:
@@ -574,6 +620,7 @@ public:
                     case LNodeType::Expr1:
                         return 147;
                     default:
+                        this->error();
                         return -1;
                 }
             case 100:
@@ -589,6 +636,7 @@ public:
                     case LNodeType::Expr0:
                         return 10;
                     default:
+                        this->error();
                         return -1;
                 }
             case 101:
@@ -604,6 +652,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 102:
@@ -613,6 +662,7 @@ public:
                     case LNodeType::FCall:
                         return 152;
                     default:
+                        this->error();
                         return -1;
                 }
             case 103:
@@ -624,6 +674,7 @@ public:
                     case LNodeType::Atoms:
                         return 153;
                     default:
+                        this->error();
                         return -1;
                 }
             case 110:
@@ -633,6 +684,7 @@ public:
                     case LNodeType::FCall:
                         return 45;
                     default:
+                        this->error();
                         return -1;
                 }
             case 116:
@@ -648,6 +700,7 @@ public:
                     case LNodeType::Expr:
                         return 160;
                     default:
+                        this->error();
                         return -1;
                 }
             case 117:
@@ -663,6 +716,7 @@ public:
                     case LNodeType::Expr:
                         return 168;
                     default:
+                        this->error();
                         return -1;
                 }
             case 118:
@@ -672,6 +726,7 @@ public:
                     case LNodeType::Var:
                         return 174;
                     default:
+                        this->error();
                         return -1;
                 }
             case 121:
@@ -683,6 +738,7 @@ public:
                     case LNodeType::Atoms:
                         return 176;
                     default:
+                        this->error();
                         return -1;
                 }
             case 122:
@@ -692,6 +748,7 @@ public:
                     case LNodeType::FCalls:
                         return 177;
                     default:
+                        this->error();
                         return -1;
                 }
             case 123:
@@ -707,6 +764,7 @@ public:
                     case LNodeType::Expr0:
                         return 73;
                     default:
+                        this->error();
                         return -1;
                 }
             case 124:
@@ -718,6 +776,7 @@ public:
                     case LNodeType::Expr0:
                         return 179;
                     default:
+                        this->error();
                         return -1;
                 }
             case 125:
@@ -731,6 +790,7 @@ public:
                     case LNodeType::Expr1:
                         return 180;
                     default:
+                        this->error();
                         return -1;
                 }
             case 126:
@@ -738,6 +798,7 @@ public:
                     case LNodeType::Brs:
                         return 181;
                     default:
+                        this->error();
                         return -1;
                 }
             case 128:
@@ -745,6 +806,7 @@ public:
                     case LNodeType::Brs:
                         return 183;
                     default:
+                        this->error();
                         return -1;
                 }
             case 133:
@@ -756,6 +818,7 @@ public:
                     case LNodeType::Atoms:
                         return 185;
                     default:
+                        this->error();
                         return -1;
                 }
             case 134:
@@ -765,6 +828,7 @@ public:
                     case LNodeType::FCalls:
                         return 186;
                     default:
+                        this->error();
                         return -1;
                 }
             case 135:
@@ -780,6 +844,7 @@ public:
                     case LNodeType::Expr0:
                         return 87;
                     default:
+                        this->error();
                         return -1;
                 }
             case 136:
@@ -791,6 +856,7 @@ public:
                     case LNodeType::Expr0:
                         return 188;
                     default:
+                        this->error();
                         return -1;
                 }
             case 137:
@@ -804,6 +870,7 @@ public:
                     case LNodeType::Expr1:
                         return 189;
                     default:
+                        this->error();
                         return -1;
                 }
             case 138:
@@ -811,6 +878,7 @@ public:
                     case LNodeType::Brs:
                         return 190;
                     default:
+                        this->error();
                         return -1;
                 }
             case 140:
@@ -818,6 +886,7 @@ public:
                     case LNodeType::Brs:
                         return 192;
                     default:
+                        this->error();
                         return -1;
                 }
             case 141:
@@ -827,6 +896,7 @@ public:
                     case LNodeType::FCall:
                         return 95;
                     default:
+                        this->error();
                         return -1;
                 }
             case 151:
@@ -838,6 +908,7 @@ public:
                     case LNodeType::Atoms:
                         return 197;
                     default:
+                        this->error();
                         return -1;
                 }
             case 152:
@@ -847,6 +918,7 @@ public:
                     case LNodeType::FCalls:
                         return 198;
                     default:
+                        this->error();
                         return -1;
                 }
             case 155:
@@ -862,6 +934,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 156:
@@ -871,6 +944,7 @@ public:
                     case LNodeType::FCall:
                         return 202;
                     default:
+                        this->error();
                         return -1;
                 }
             case 157:
@@ -878,6 +952,7 @@ public:
                     case LNodeType::BinOP2:
                         return 203;
                     default:
+                        this->error();
                         return -1;
                 }
             case 158:
@@ -885,6 +960,7 @@ public:
                     case LNodeType::BinOP0:
                         return 204;
                     default:
+                        this->error();
                         return -1;
                 }
             case 159:
@@ -892,6 +968,7 @@ public:
                     case LNodeType::BinOP1:
                         return 205;
                     default:
+                        this->error();
                         return -1;
                 }
             case 163:
@@ -907,6 +984,7 @@ public:
                     case LNodeType::Expr0:
                         return 39;
                     default:
+                        this->error();
                         return -1;
                 }
             case 164:
@@ -916,6 +994,7 @@ public:
                     case LNodeType::FCall:
                         return 210;
                     default:
+                        this->error();
                         return -1;
                 }
             case 165:
@@ -923,6 +1002,7 @@ public:
                     case LNodeType::BinOP2:
                         return 211;
                     default:
+                        this->error();
                         return -1;
                 }
             case 166:
@@ -930,6 +1010,7 @@ public:
                     case LNodeType::BinOP0:
                         return 212;
                     default:
+                        this->error();
                         return -1;
                 }
             case 167:
@@ -937,6 +1018,7 @@ public:
                     case LNodeType::BinOP1:
                         return 213;
                     default:
+                        this->error();
                         return -1;
                 }
             case 174:
@@ -946,6 +1028,7 @@ public:
                     case LNodeType::Vars:
                         return 216;
                     default:
+                        this->error();
                         return -1;
                 }
             case 175:
@@ -955,6 +1038,7 @@ public:
                     case LNodeType::FCall:
                         return 122;
                     default:
+                        this->error();
                         return -1;
                 }
             case 182:
@@ -962,6 +1046,7 @@ public:
                     case LNodeType::Brs:
                         return 220;
                     default:
+                        this->error();
                         return -1;
                 }
             case 184:
@@ -971,6 +1056,7 @@ public:
                     case LNodeType::FCall:
                         return 134;
                     default:
+                        this->error();
                         return -1;
                 }
             case 191:
@@ -978,6 +1064,7 @@ public:
                     case LNodeType::Brs:
                         return 223;
                     default:
+                        this->error();
                         return -1;
                 }
             case 195:
@@ -985,6 +1072,7 @@ public:
                     case LNodeType::Brs:
                         return 224;
                     default:
+                        this->error();
                         return -1;
                 }
             case 196:
@@ -994,6 +1082,7 @@ public:
                     case LNodeType::FCall:
                         return 152;
                     default:
+                        this->error();
                         return -1;
                 }
             case 201:
@@ -1005,6 +1094,7 @@ public:
                     case LNodeType::Atoms:
                         return 228;
                     default:
+                        this->error();
                         return -1;
                 }
             case 202:
@@ -1014,6 +1104,7 @@ public:
                     case LNodeType::FCalls:
                         return 229;
                     default:
+                        this->error();
                         return -1;
                 }
             case 203:
@@ -1029,6 +1120,7 @@ public:
                     case LNodeType::Expr0:
                         return 159;
                     default:
+                        this->error();
                         return -1;
                 }
             case 204:
@@ -1040,6 +1132,7 @@ public:
                     case LNodeType::Expr0:
                         return 231;
                     default:
+                        this->error();
                         return -1;
                 }
             case 205:
@@ -1053,6 +1146,7 @@ public:
                     case LNodeType::Expr1:
                         return 232;
                     default:
+                        this->error();
                         return -1;
                 }
             case 206:
@@ -1068,6 +1162,7 @@ public:
                     case LNodeType::Expr:
                         return 233;
                     default:
+                        this->error();
                         return -1;
                 }
             case 209:
@@ -1079,6 +1174,7 @@ public:
                     case LNodeType::Atoms:
                         return 235;
                     default:
+                        this->error();
                         return -1;
                 }
             case 210:
@@ -1088,6 +1184,7 @@ public:
                     case LNodeType::FCalls:
                         return 236;
                     default:
+                        this->error();
                         return -1;
                 }
             case 211:
@@ -1103,6 +1200,7 @@ public:
                     case LNodeType::Expr0:
                         return 167;
                     default:
+                        this->error();
                         return -1;
                 }
             case 212:
@@ -1114,6 +1212,7 @@ public:
                     case LNodeType::Expr0:
                         return 238;
                     default:
+                        this->error();
                         return -1;
                 }
             case 213:
@@ -1127,6 +1226,7 @@ public:
                     case LNodeType::Expr1:
                         return 239;
                     default:
+                        this->error();
                         return -1;
                 }
             case 214:
@@ -1134,6 +1234,7 @@ public:
                     case LNodeType::Brs:
                         return 240;
                     default:
+                        this->error();
                         return -1;
                 }
             case 215:
@@ -1141,6 +1242,7 @@ public:
                     case LNodeType::Brs:
                         return 241;
                     default:
+                        this->error();
                         return -1;
                 }
             case 219:
@@ -1148,6 +1250,7 @@ public:
                     case LNodeType::Brs:
                         return 242;
                     default:
+                        this->error();
                         return -1;
                 }
             case 220:
@@ -1187,6 +1290,7 @@ public:
                     case LNodeType::Expr:
                         return 261;
                     default:
+                        this->error();
                         return -1;
                 }
             case 223:
@@ -1230,6 +1334,7 @@ public:
                     case LNodeType::Stmts:
                         return 285;
                     default:
+                        this->error();
                         return -1;
                 }
             case 227:
@@ -1239,6 +1344,7 @@ public:
                     case LNodeType::FCall:
                         return 202;
                     default:
+                        this->error();
                         return -1;
                 }
             case 234:
@@ -1248,6 +1354,7 @@ public:
                     case LNodeType::FCall:
                         return 210;
                     default:
+                        this->error();
                         return -1;
                 }
             case 240:
@@ -1291,6 +1398,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 241:
@@ -1334,6 +1442,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 243:
@@ -1347,6 +1456,7 @@ public:
                     case LNodeType::Var:
                         return 48;
                     default:
+                        this->error();
                         return -1;
                 }
             case 245:
@@ -1354,6 +1464,7 @@ public:
                     case LNodeType::Var:
                         return 296;
                     default:
+                        this->error();
                         return -1;
                 }
             case 246:
@@ -1361,6 +1472,7 @@ public:
                     case LNodeType::Var:
                         return 297;
                     default:
+                        this->error();
                         return -1;
                 }
             case 247:
@@ -1400,6 +1512,7 @@ public:
                     case LNodeType::Expr:
                         return 261;
                     default:
+                        this->error();
                         return -1;
                 }
             case 248:
@@ -1415,6 +1528,7 @@ public:
                     case LNodeType::Expr:
                         return 300;
                     default:
+                        this->error();
                         return -1;
                 }
             case 260:
@@ -1424,6 +1538,7 @@ public:
                     case LNodeType::Var:
                         return 80;
                     default:
+                        this->error();
                         return -1;
                 }
             case 262:
@@ -1439,6 +1554,7 @@ public:
                     case LNodeType::Expr:
                         return 304;
                     default:
+                        this->error();
                         return -1;
                 }
             case 263:
@@ -1448,6 +1564,7 @@ public:
                     case LNodeType::Vars:
                         return 305;
                     default:
+                        this->error();
                         return -1;
                 }
             case 264:
@@ -1461,6 +1578,7 @@ public:
                     case LNodeType::Var:
                         return 48;
                     default:
+                        this->error();
                         return -1;
                 }
             case 266:
@@ -1468,6 +1586,7 @@ public:
                     case LNodeType::Var:
                         return 308;
                     default:
+                        this->error();
                         return -1;
                 }
             case 267:
@@ -1475,6 +1594,7 @@ public:
                     case LNodeType::Var:
                         return 309;
                     default:
+                        this->error();
                         return -1;
                 }
             case 268:
@@ -1490,6 +1610,7 @@ public:
                     case LNodeType::Expr:
                         return 310;
                     default:
+                        this->error();
                         return -1;
                 }
             case 279:
@@ -1499,6 +1620,7 @@ public:
                     case LNodeType::Var:
                         return 80;
                     default:
+                        this->error();
                         return -1;
                 }
             case 283:
@@ -1542,6 +1664,7 @@ public:
                     case LNodeType::Stmts:
                         return 313;
                     default:
+                        this->error();
                         return -1;
                 }
             case 284:
@@ -1557,6 +1680,7 @@ public:
                     case LNodeType::Expr:
                         return 314;
                     default:
+                        this->error();
                         return -1;
                 }
             case 286:
@@ -1566,6 +1690,7 @@ public:
                     case LNodeType::Vars:
                         return 316;
                     default:
+                        this->error();
                         return -1;
                 }
             case 289:
@@ -1573,6 +1698,7 @@ public:
                     case LNodeType::Brs:
                         return 317;
                     default:
+                        this->error();
                         return -1;
                 }
             case 295:
@@ -1580,6 +1706,7 @@ public:
                     case LNodeType::Brs:
                         return 321;
                     default:
+                        this->error();
                         return -1;
                 }
             case 299:
@@ -1619,6 +1746,7 @@ public:
                     case LNodeType::Expr:
                         return 261;
                     default:
+                        this->error();
                         return -1;
                 }
             case 300:
@@ -1626,6 +1754,7 @@ public:
                     case LNodeType::Brs:
                         return 328;
                     default:
+                        this->error();
                         return -1;
                 }
             case 301:
@@ -1633,6 +1762,7 @@ public:
                     case LNodeType::Brs:
                         return 329;
                     default:
+                        this->error();
                         return -1;
                 }
             case 303:
@@ -1640,6 +1770,7 @@ public:
                     case LNodeType::Brs:
                         return 331;
                     default:
+                        this->error();
                         return -1;
                 }
             case 304:
@@ -1647,6 +1778,7 @@ public:
                     case LNodeType::Brs:
                         return 332;
                     default:
+                        this->error();
                         return -1;
                 }
             case 307:
@@ -1654,6 +1786,7 @@ public:
                     case LNodeType::Brs:
                         return 335;
                     default:
+                        this->error();
                         return -1;
                 }
             case 310:
@@ -1661,6 +1794,7 @@ public:
                     case LNodeType::Brs:
                         return 339;
                     default:
+                        this->error();
                         return -1;
                 }
             case 312:
@@ -1668,6 +1802,7 @@ public:
                     case LNodeType::Brs:
                         return 341;
                     default:
+                        this->error();
                         return -1;
                 }
             case 314:
@@ -1675,6 +1810,7 @@ public:
                     case LNodeType::Brs:
                         return 342;
                     default:
+                        this->error();
                         return -1;
                 }
             case 315:
@@ -1682,6 +1818,7 @@ public:
                     case LNodeType::Brs:
                         return 343;
                     default:
+                        this->error();
                         return -1;
                 }
             case 317:
@@ -1725,6 +1862,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 318:
@@ -1732,6 +1870,7 @@ public:
                     case LNodeType::Brs:
                         return 346;
                     default:
+                        this->error();
                         return -1;
                 }
             case 319:
@@ -1739,6 +1878,7 @@ public:
                     case LNodeType::Brs:
                         return 347;
                     default:
+                        this->error();
                         return -1;
                 }
             case 320:
@@ -1754,6 +1894,7 @@ public:
                     case LNodeType::Expr0:
                         return 10;
                     default:
+                        this->error();
                         return -1;
                 }
             case 322:
@@ -1761,6 +1902,7 @@ public:
                     case LNodeType::Brs:
                         return 349;
                     default:
+                        this->error();
                         return -1;
                 }
             case 323:
@@ -1776,6 +1918,7 @@ public:
                     case LNodeType::Expr:
                         return 350;
                     default:
+                        this->error();
                         return -1;
                 }
             case 324:
@@ -1791,6 +1934,7 @@ public:
                     case LNodeType::Expr:
                         return 351;
                     default:
+                        this->error();
                         return -1;
                 }
             case 325:
@@ -1800,6 +1944,7 @@ public:
                     case LNodeType::Var:
                         return 174;
                     default:
+                        this->error();
                         return -1;
                 }
             case 326:
@@ -1807,6 +1952,7 @@ public:
                     case LNodeType::Brs:
                         return 354;
                     default:
+                        this->error();
                         return -1;
                 }
             case 330:
@@ -1814,6 +1960,7 @@ public:
                     case LNodeType::Brs:
                         return 356;
                     default:
+                        this->error();
                         return -1;
                 }
             case 333:
@@ -1821,6 +1968,7 @@ public:
                     case LNodeType::Brs:
                         return 358;
                     default:
+                        this->error();
                         return -1;
                 }
             case 334:
@@ -1836,6 +1984,7 @@ public:
                     case LNodeType::Expr0:
                         return 10;
                     default:
+                        this->error();
                         return -1;
                 }
             case 336:
@@ -1851,6 +2000,7 @@ public:
                     case LNodeType::Expr:
                         return 360;
                     default:
+                        this->error();
                         return -1;
                 }
             case 337:
@@ -1866,6 +2016,7 @@ public:
                     case LNodeType::Expr:
                         return 361;
                     default:
+                        this->error();
                         return -1;
                 }
             case 338:
@@ -1875,6 +2026,7 @@ public:
                     case LNodeType::Var:
                         return 174;
                     default:
+                        this->error();
                         return -1;
                 }
             case 340:
@@ -1882,6 +2034,7 @@ public:
                     case LNodeType::Brs:
                         return 364;
                     default:
+                        this->error();
                         return -1;
                 }
             case 344:
@@ -1889,6 +2042,7 @@ public:
                     case LNodeType::Brs:
                         return 366;
                     default:
+                        this->error();
                         return -1;
                 }
             case 353:
@@ -1896,6 +2050,7 @@ public:
                     case LNodeType::Brs:
                         return 372;
                     default:
+                        this->error();
                         return -1;
                 }
             case 354:
@@ -1937,6 +2092,7 @@ public:
                     case LNodeType::NIEStmt:
                         return 282;
                     default:
+                        this->error();
                         return -1;
                 }
             case 355:
@@ -1944,6 +2100,7 @@ public:
                     case LNodeType::Brs:
                         return 374;
                     default:
+                        this->error();
                         return -1;
                 }
             case 357:
@@ -1951,6 +2108,7 @@ public:
                     case LNodeType::Brs:
                         return 375;
                     default:
+                        this->error();
                         return -1;
                 }
             case 363:
@@ -1958,6 +2116,7 @@ public:
                     case LNodeType::Brs:
                         return 380;
                     default:
+                        this->error();
                         return -1;
                 }
             case 365:
@@ -1965,6 +2124,7 @@ public:
                     case LNodeType::Brs:
                         return 381;
                     default:
+                        this->error();
                         return -1;
                 }
             case 367:
@@ -1972,6 +2132,7 @@ public:
                     case LNodeType::Brs:
                         return 382;
                     default:
+                        this->error();
                         return -1;
                 }
             case 368:
@@ -1979,6 +2140,7 @@ public:
                     case LNodeType::Brs:
                         return 383;
                     default:
+                        this->error();
                         return -1;
                 }
             case 369:
@@ -1994,6 +2156,7 @@ public:
                     case LNodeType::Expr:
                         return 384;
                     default:
+                        this->error();
                         return -1;
                 }
             case 370:
@@ -2001,6 +2164,7 @@ public:
                     case LNodeType::Brs:
                         return 385;
                     default:
+                        this->error();
                         return -1;
                 }
             case 371:
@@ -2008,6 +2172,7 @@ public:
                     case LNodeType::Brs:
                         return 386;
                     default:
+                        this->error();
                         return -1;
                 }
             case 373:
@@ -2051,6 +2216,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 374:
@@ -2090,6 +2256,7 @@ public:
                     case LNodeType::Expr:
                         return 280;
                     default:
+                        this->error();
                         return -1;
                 }
             case 375:
@@ -2133,6 +2300,7 @@ public:
                     case LNodeType::Stmts:
                         return 391;
                     default:
+                        this->error();
                         return -1;
                 }
             case 376:
@@ -2140,6 +2308,7 @@ public:
                     case LNodeType::Brs:
                         return 392;
                     default:
+                        this->error();
                         return -1;
                 }
             case 377:
@@ -2155,6 +2324,7 @@ public:
                     case LNodeType::Expr:
                         return 393;
                     default:
+                        this->error();
                         return -1;
                 }
             case 378:
@@ -2162,6 +2332,7 @@ public:
                     case LNodeType::Brs:
                         return 394;
                     default:
+                        this->error();
                         return -1;
                 }
             case 379:
@@ -2169,6 +2340,7 @@ public:
                     case LNodeType::Brs:
                         return 395;
                     default:
+                        this->error();
                         return -1;
                 }
             case 380:
@@ -2208,6 +2380,7 @@ public:
                     case LNodeType::Expr:
                         return 261;
                     default:
+                        this->error();
                         return -1;
                 }
             case 381:
@@ -2251,6 +2424,7 @@ public:
                     case LNodeType::Stmts:
                         return 398;
                     default:
+                        this->error();
                         return -1;
                 }
             case 385:
@@ -2294,6 +2468,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 386:
@@ -2337,6 +2512,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 388:
@@ -2352,6 +2528,7 @@ public:
                     case LNodeType::Expr:
                         return 403;
                     default:
+                        this->error();
                         return -1;
                 }
             case 390:
@@ -2391,6 +2568,7 @@ public:
                     case LNodeType::Expr:
                         return 280;
                     default:
+                        this->error();
                         return -1;
                 }
             case 394:
@@ -2434,6 +2612,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 395:
@@ -2477,6 +2656,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 396:
@@ -2516,6 +2696,7 @@ public:
                     case LNodeType::Expr:
                         return 261;
                     default:
+                        this->error();
                         return -1;
                 }
             case 399:
@@ -2523,6 +2704,7 @@ public:
                     case LNodeType::Brs:
                         return 413;
                     default:
+                        this->error();
                         return -1;
                 }
             case 402:
@@ -2530,6 +2712,7 @@ public:
                     case LNodeType::Brs:
                         return 416;
                     default:
+                        this->error();
                         return -1;
                 }
             case 403:
@@ -2537,6 +2720,7 @@ public:
                     case LNodeType::Brs:
                         return 417;
                     default:
+                        this->error();
                         return -1;
                 }
             case 404:
@@ -2544,6 +2728,7 @@ public:
                     case LNodeType::Brs:
                         return 418;
                     default:
+                        this->error();
                         return -1;
                 }
             case 406:
@@ -2551,6 +2736,7 @@ public:
                     case LNodeType::Brs:
                         return 419;
                     default:
+                        this->error();
                         return -1;
                 }
             case 407:
@@ -2558,6 +2744,7 @@ public:
                     case LNodeType::Brs:
                         return 420;
                     default:
+                        this->error();
                         return -1;
                 }
             case 411:
@@ -2565,6 +2752,7 @@ public:
                     case LNodeType::Brs:
                         return 424;
                     default:
+                        this->error();
                         return -1;
                 }
             case 412:
@@ -2572,6 +2760,7 @@ public:
                     case LNodeType::Brs:
                         return 425;
                     default:
+                        this->error();
                         return -1;
                 }
             case 413:
@@ -2615,6 +2804,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 414:
@@ -2622,6 +2812,7 @@ public:
                     case LNodeType::Brs:
                         return 427;
                     default:
+                        this->error();
                         return -1;
                 }
             case 415:
@@ -2629,6 +2820,7 @@ public:
                     case LNodeType::Brs:
                         return 428;
                     default:
+                        this->error();
                         return -1;
                 }
             case 420:
@@ -2672,6 +2864,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 421:
@@ -2679,6 +2872,7 @@ public:
                     case LNodeType::Brs:
                         return 431;
                     default:
+                        this->error();
                         return -1;
                 }
             case 422:
@@ -2686,6 +2880,7 @@ public:
                     case LNodeType::Brs:
                         return 432;
                     default:
+                        this->error();
                         return -1;
                 }
             case 423:
@@ -2693,6 +2888,7 @@ public:
                     case LNodeType::Brs:
                         return 433;
                     default:
+                        this->error();
                         return -1;
                 }
             case 429:
@@ -2700,6 +2896,7 @@ public:
                     case LNodeType::Brs:
                         return 435;
                     default:
+                        this->error();
                         return -1;
                 }
             case 433:
@@ -2741,6 +2938,7 @@ public:
                     case LNodeType::NIEStmt:
                         return 282;
                     default:
+                        this->error();
                         return -1;
                 }
             case 434:
@@ -2748,6 +2946,7 @@ public:
                     case LNodeType::Brs:
                         return 438;
                     default:
+                        this->error();
                         return -1;
                 }
             case 435:
@@ -2787,6 +2986,7 @@ public:
                     case LNodeType::Expr:
                         return 280;
                     default:
+                        this->error();
                         return -1;
                 }
             case 436:
@@ -2794,6 +2994,7 @@ public:
                     case LNodeType::Brs:
                         return 439;
                     default:
+                        this->error();
                         return -1;
                 }
             case 437:
@@ -2837,6 +3038,7 @@ public:
                     case LNodeType::Stmt:
                         return 283;
                     default:
+                        this->error();
                         return -1;
                 }
             case 441:
@@ -2844,9 +3046,11 @@ public:
                     case LNodeType::Brs:
                         return 442;
                     default:
+                        this->error();
                         return -1;
                 }
             default:
+                this->error();
                 return -1;
         }
     }
@@ -2875,22 +3079,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -2912,22 +3109,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -2939,15 +3129,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_45();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Root);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -2959,85 +3144,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(7, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(11, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(12, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(13, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(24, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(32, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(33, r);
                             break;
                         default:
@@ -3059,15 +3219,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3079,23 +3234,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -3117,49 +3266,33 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(47, r);
                             break;
                         default:
@@ -3171,9 +3304,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(49, r);
                             break;
                         default:
@@ -3185,57 +3316,40 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -3255,29 +3369,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -3295,29 +3400,20 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -3329,16 +3425,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(64, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(65, r);
                             break;
                         default:
@@ -3350,16 +3442,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(67, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(68, r);
                             break;
                         default:
@@ -3371,23 +3459,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -3409,15 +3491,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3439,15 +3516,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3469,15 +3541,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3499,15 +3566,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3529,15 +3591,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3559,15 +3616,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3589,15 +3641,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3619,15 +3666,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3649,15 +3691,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3679,15 +3716,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3699,29 +3731,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -3733,9 +3756,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(81, r);
                             break;
                         default:
@@ -3747,15 +3768,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_47();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Start);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3777,15 +3793,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3807,15 +3818,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3827,85 +3833,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(7, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(11, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(12, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(13, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(24, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(32, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(33, r);
                             break;
                         default:
@@ -3931,15 +3912,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3965,15 +3941,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -3985,23 +3956,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -4013,29 +3978,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -4047,23 +4003,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -4085,22 +4035,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(94, r);
                             break;
                         default:
@@ -4112,9 +4055,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(96, r);
                             break;
                         default:
@@ -4126,57 +4067,40 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -4196,29 +4120,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -4236,29 +4151,20 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -4281,15 +4187,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4312,15 +4213,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4342,15 +4238,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4362,9 +4253,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(100, r);
                             break;
                         default:
@@ -4376,36 +4265,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -4427,22 +4305,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         default:
@@ -4456,15 +4327,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4478,15 +4344,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4498,29 +4359,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(47, r);
                             break;
                         default:
@@ -4542,22 +4394,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -4571,15 +4416,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_9();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4593,15 +4433,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_10();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4615,15 +4450,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_11();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4637,15 +4467,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_12();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4659,15 +4484,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_13();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4681,15 +4501,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_14();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4701,23 +4516,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -4731,15 +4540,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_5();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4753,15 +4557,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_6();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4773,23 +4572,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -4803,15 +4596,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_7();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4825,15 +4613,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_8();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::BinOP1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4845,23 +4628,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -4873,16 +4650,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(116, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(117, r);
                             break;
                         default:
@@ -4895,15 +4668,10 @@ public:
                         case LNodeType::EQUAL:
                         case LNodeType::IN:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4916,15 +4684,10 @@ public:
                         case LNodeType::EQUAL:
                         case LNodeType::IN:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4936,9 +4699,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(118, r);
                             break;
                         default:
@@ -4950,15 +4711,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4970,15 +4726,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -4990,23 +4741,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -5029,22 +4774,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(121, r);
                             break;
                         default:
@@ -5057,57 +4795,40 @@ public:
                         case LNodeType::BR:
                         case LNodeType::THEN:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -5128,29 +4849,20 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -5169,29 +4881,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::THEN:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -5203,22 +4906,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(126, r);
                             break;
                         default:
@@ -5242,15 +4938,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5274,15 +4965,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5294,9 +4980,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(128, r);
                             break;
                         default:
@@ -5310,15 +4994,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5332,15 +5011,10 @@ public:
                         case LNodeType::INT:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5352,29 +5026,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -5396,22 +5061,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -5423,15 +5081,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EOFF:
                             r = this->reduce_51();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5443,23 +5096,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -5482,22 +5129,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(133, r);
                             break;
                         default:
@@ -5510,57 +5150,40 @@ public:
                         case LNodeType::BR:
                         case LNodeType::DO:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -5581,29 +5204,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -5622,29 +5236,20 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -5668,15 +5273,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5700,15 +5300,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5720,22 +5315,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(138, r);
                             break;
                         default:
@@ -5747,9 +5335,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(140, r);
                             break;
                         default:
@@ -5761,9 +5347,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(141, r);
                             break;
                         default:
@@ -5785,15 +5369,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -5805,36 +5384,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -5856,22 +5424,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(94, r);
                             break;
                         default:
@@ -5893,22 +5454,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         default:
@@ -5920,23 +5474,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -5948,23 +5496,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -5976,23 +5518,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -6004,23 +5540,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -6032,23 +5562,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -6063,22 +5587,15 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(151, r);
                             break;
                         default:
@@ -6090,36 +5607,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -6131,9 +5637,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(154, r);
                             break;
                         default:
@@ -6149,15 +5653,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6173,15 +5672,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6203,15 +5697,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6223,15 +5712,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->reduce_55();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6253,15 +5737,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6283,22 +5762,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         default:
@@ -6310,15 +5782,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6341,15 +5808,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6372,15 +5834,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6400,15 +5857,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6426,15 +5878,10 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6446,23 +5893,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -6474,23 +5915,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -6502,29 +5937,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(172, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(173, r);
                             break;
                         default:
@@ -6536,9 +5962,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(175, r);
                             break;
                         default:
@@ -6561,15 +5985,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6581,36 +6000,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -6633,22 +6041,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(121, r);
                             break;
                         default:
@@ -6660,23 +6061,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -6688,23 +6083,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -6716,23 +6105,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -6744,22 +6127,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(126, r);
                             break;
                         default:
@@ -6771,9 +6147,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(182, r);
                             break;
                         default:
@@ -6795,22 +6169,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -6822,15 +6189,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_55();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6852,15 +6214,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6872,9 +6229,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(184, r);
                             break;
                         default:
@@ -6897,15 +6252,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -6917,36 +6267,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -6969,22 +6308,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(133, r);
                             break;
                         default:
@@ -6996,23 +6328,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -7024,23 +6350,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -7052,23 +6372,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -7080,22 +6394,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(138, r);
                             break;
                         default:
@@ -7107,9 +6414,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(191, r);
                             break;
                         default:
@@ -7131,22 +6436,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -7168,22 +6466,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(94, r);
                             break;
                         default:
@@ -7195,9 +6486,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(194, r);
                             break;
                         default:
@@ -7219,15 +6508,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7249,15 +6533,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7269,15 +6548,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7297,15 +6571,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7323,15 +6592,10 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7343,9 +6607,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(195, r);
                             break;
                         default:
@@ -7357,9 +6619,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(196, r);
                             break;
                         default:
@@ -7374,15 +6634,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7394,36 +6649,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -7438,22 +6682,15 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(151, r);
                             break;
                         default:
@@ -7465,15 +6702,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_3();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7496,15 +6728,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7516,23 +6743,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -7554,22 +6775,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(201, r);
                             break;
                         default:
@@ -7581,57 +6795,40 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -7651,29 +6848,20 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -7691,29 +6879,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::TO:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -7725,9 +6904,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(206, r);
                             break;
                         default:
@@ -7750,15 +6927,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7781,15 +6953,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -7801,23 +6968,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(34, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(40, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(41, r);
                             break;
                         default:
@@ -7839,22 +7000,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(209, r);
                             break;
                         default:
@@ -7866,57 +7020,40 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_18();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQ:
                             r = this->shift_EQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(50, r);
                             break;
                         case LNodeType::G:
                             r = this->shift_G();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(51, r);
                             break;
                         case LNodeType::GEQ:
                             r = this->shift_GEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(52, r);
                             break;
                         case LNodeType::L:
                             r = this->shift_L();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(53, r);
                             break;
                         case LNodeType::LEQ:
                             r = this->shift_LEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(54, r);
                             break;
                         case LNodeType::NEQ:
                             r = this->shift_NEQ();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(55, r);
                             break;
                         default:
@@ -7936,29 +7073,20 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_20();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::DIV:
                             r = this->shift_DIV();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(57, r);
                             break;
                         case LNodeType::MUL:
                             r = this->shift_MUL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(58, r);
                             break;
                         default:
@@ -7976,29 +7104,20 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_22();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ADD:
                             r = this->shift_ADD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(60, r);
                             break;
                         case LNodeType::SUB:
                             r = this->shift_SUB();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(61, r);
                             break;
                         default:
@@ -8010,9 +7129,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(214, r);
                             break;
                         default:
@@ -8035,15 +7152,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8066,15 +7178,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8086,9 +7193,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(215, r);
                             break;
                         default:
@@ -8102,15 +7207,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_52();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8124,15 +7224,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_53();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8144,29 +7239,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(172, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(173, r);
                             break;
                         default:
@@ -8189,22 +7275,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(121, r);
                             break;
                         default:
@@ -8216,9 +7295,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(218, r);
                             break;
                         default:
@@ -8241,15 +7318,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8262,15 +7334,10 @@ public:
                         case LNodeType::BR:
                         case LNodeType::THEN:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8291,15 +7358,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8318,15 +7380,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::THEN:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8338,15 +7395,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8368,22 +7420,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -8405,15 +7450,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8436,22 +7476,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(133, r);
                             break;
                         default:
@@ -8463,9 +7496,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(222, r);
                             break;
                         default:
@@ -8488,15 +7519,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8509,15 +7535,10 @@ public:
                         case LNodeType::BR:
                         case LNodeType::DO:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8538,15 +7559,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8565,15 +7581,10 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8585,15 +7596,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8615,22 +7621,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -8652,15 +7651,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8682,15 +7676,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8713,15 +7702,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8743,22 +7727,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -8773,22 +7750,15 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(151, r);
                             break;
                         default:
@@ -8800,9 +7770,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(226, r);
                             break;
                         default:
@@ -8817,15 +7785,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8837,9 +7800,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(227, r);
                             break;
                         default:
@@ -8861,15 +7822,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -8881,36 +7837,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -8932,22 +7877,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(201, r);
                             break;
                         default:
@@ -8959,23 +7897,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -8987,23 +7919,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -9015,23 +7941,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -9043,23 +7963,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -9071,9 +7985,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(234, r);
                             break;
                         default:
@@ -9095,15 +8007,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_1();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9115,36 +8022,25 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_2();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(101, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(105, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(106, r);
                             break;
                         default:
@@ -9166,22 +8062,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(209, r);
                             break;
                         default:
@@ -9193,23 +8082,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -9221,23 +8104,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -9249,23 +8126,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -9287,22 +8158,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -9324,22 +8188,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -9351,15 +8208,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_55();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9382,15 +8234,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9414,15 +8261,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::THEN:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9444,22 +8286,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -9471,85 +8306,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(244, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(245, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(246, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(248, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(260, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(262, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(263, r);
                             break;
                         default:
@@ -9572,15 +8382,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9604,15 +8409,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9624,85 +8424,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -9724,15 +8499,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(6);
                             flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9747,15 +8517,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9771,15 +8536,10 @@ public:
                         case LNodeType::KET:
                         case LNodeType::VAR:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9801,22 +8561,15 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(201, r);
                             break;
                         default:
@@ -9828,9 +8581,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(288, r);
                             break;
                         default:
@@ -9852,15 +8603,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9872,15 +8618,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9900,15 +8641,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9926,15 +8662,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::TO:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -9946,9 +8677,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(289, r);
                             break;
                         default:
@@ -9970,22 +8699,15 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(209, r);
                             break;
                         default:
@@ -9997,9 +8719,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(291, r);
                             break;
                         default:
@@ -10021,15 +8741,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_29();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10041,15 +8756,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_19();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10069,15 +8779,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_21();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10095,15 +8800,10 @@ public:
                         case LNodeType::LEQ:
                         case LNodeType::NEQ:
                             r = this->reduce_23();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10115,85 +8815,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -10205,85 +8880,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -10305,15 +8955,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10335,49 +8980,33 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(47, r);
                             break;
                         default:
@@ -10389,9 +9018,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(295, r);
                             break;
                         default:
@@ -10403,16 +9030,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(64, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(65, r);
                             break;
                         default:
@@ -10424,16 +9047,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(67, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(68, r);
                             break;
                         default:
@@ -10446,85 +9065,60 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(244, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(245, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(246, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(248, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(260, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(262, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(263, r);
                             break;
                         default:
@@ -10536,23 +9130,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -10564,9 +9152,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(301, r);
                             break;
                         default:
@@ -10589,15 +9175,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10620,15 +9201,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10651,15 +9227,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10682,15 +9253,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10713,15 +9279,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10744,15 +9305,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10775,15 +9331,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10806,15 +9357,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10837,15 +9383,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10868,15 +9409,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -10888,29 +9424,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -10922,9 +9449,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(303, r);
                             break;
                         default:
@@ -10936,23 +9461,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -10964,29 +9483,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -11008,49 +9518,33 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_28();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::EQUAL:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(44, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(46, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(47, r);
                             break;
                         default:
@@ -11062,9 +9556,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(307, r);
                             break;
                         default:
@@ -11076,16 +9568,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(64, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(65, r);
                             break;
                         default:
@@ -11097,16 +9585,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(67, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(68, r);
                             break;
                         default:
@@ -11118,23 +9602,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -11156,15 +9634,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_32();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11186,15 +9659,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_33();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11216,15 +9684,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_34();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11246,15 +9709,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_35();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11276,15 +9734,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_36();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11306,15 +9759,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_37();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11336,15 +9784,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_38();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11366,15 +9809,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_39();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11396,15 +9834,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_40();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11426,15 +9859,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_41();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11446,29 +9874,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -11480,9 +9899,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(312, r);
                             break;
                         default:
@@ -11504,15 +9921,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_48();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11534,15 +9946,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_49();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(1);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11554,85 +9961,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -11644,23 +10026,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(83, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(88, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(89, r);
                             break;
                         default:
@@ -11672,9 +10048,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(315, r);
                             break;
                         default:
@@ -11686,29 +10060,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(78, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(79, r);
                             break;
                         default:
@@ -11730,15 +10095,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11761,15 +10121,10 @@ public:
                         case LNodeType::SUB:
                         case LNodeType::TO:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11791,22 +10146,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -11828,15 +10176,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_0();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11859,15 +10202,10 @@ public:
                         case LNodeType::NEQ:
                         case LNodeType::SUB:
                             r = this->reduce_27();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -11879,9 +10217,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(318, r);
                             break;
                         default:
@@ -11893,9 +10229,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(319, r);
                             break;
                         default:
@@ -11907,9 +10241,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(320, r);
                             break;
                         default:
@@ -11932,22 +10264,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -11959,16 +10284,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(323, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(324, r);
                             break;
                         default:
@@ -11980,9 +10301,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(325, r);
                             break;
                         default:
@@ -11994,22 +10313,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ELSE:
                             r = this->shift_ELSE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(326, r);
                             break;
                         default:
@@ -12022,85 +10334,60 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(244, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(245, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(246, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(248, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(260, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(262, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(263, r);
                             break;
                         default:
@@ -12112,22 +10399,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(126, r);
                             break;
                         default:
@@ -12149,22 +10429,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -12176,9 +10449,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(330, r);
                             break;
                         default:
@@ -12201,22 +10472,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -12228,22 +10492,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(138, r);
                             break;
                         default:
@@ -12255,9 +10512,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(333, r);
                             break;
                         default:
@@ -12269,9 +10524,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(334, r);
                             break;
                         default:
@@ -12293,22 +10546,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -12320,16 +10566,12 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::EQUAL:
                             r = this->shift_EQUAL();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(336, r);
                             break;
                         case LNodeType::IN:
                             r = this->shift_IN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(337, r);
                             break;
                         default:
@@ -12341,9 +10583,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::FBRAC:
                             r = this->shift_FBRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(338, r);
                             break;
                         default:
@@ -12355,22 +10595,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(126, r);
                             break;
                         default:
@@ -12382,9 +10615,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(340, r);
                             break;
                         default:
@@ -12406,22 +10637,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -12433,15 +10657,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_51();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -12453,22 +10672,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(138, r);
                             break;
                         default:
@@ -12490,22 +10702,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -12517,9 +10722,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(344, r);
                             break;
                         default:
@@ -12531,85 +10734,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -12631,22 +10809,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -12668,22 +10839,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -12695,23 +10859,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -12734,15 +10892,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -12765,22 +10918,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -12792,23 +10938,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -12820,23 +10960,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -12848,29 +10982,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(172, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(173, r);
                             break;
                         default:
@@ -12891,22 +11016,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(353, r);
                             break;
                         default:
@@ -12919,15 +11037,10 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -12939,9 +11052,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(355, r);
                             break;
                         default:
@@ -12963,15 +11074,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -12994,22 +11100,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -13032,15 +11131,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13052,9 +11146,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(357, r);
                             break;
                         default:
@@ -13077,22 +11169,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -13104,23 +11189,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(112, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(113, r);
                             break;
                         default:
@@ -13142,15 +11221,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_4();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13162,23 +11236,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(155, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(161, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(162, r);
                             break;
                         default:
@@ -13190,23 +11258,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -13218,29 +11280,20 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->reduce_54();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(172, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(173, r);
                             break;
                         default:
@@ -13252,9 +11305,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(363, r);
                             break;
                         default:
@@ -13276,22 +11327,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13313,15 +11357,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_46();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(3);
                             flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13333,9 +11372,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(365, r);
                             break;
                         default:
@@ -13357,15 +11394,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13387,22 +11419,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13414,9 +11439,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(367, r);
                             break;
                         default:
@@ -13438,15 +11461,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13468,15 +11486,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13488,9 +11501,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(368, r);
                             break;
                         default:
@@ -13513,15 +11524,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13533,9 +11539,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(369, r);
                             break;
                         default:
@@ -13547,9 +11551,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(370, r);
                             break;
                         default:
@@ -13561,9 +11563,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(371, r);
                             break;
                         default:
@@ -13584,22 +11584,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(353, r);
                             break;
                         default:
@@ -13611,72 +11604,52 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -13698,22 +11671,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13736,15 +11702,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13766,22 +11727,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13804,15 +11758,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13824,9 +11773,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(376, r);
                             break;
                         default:
@@ -13838,9 +11785,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::TO:
                             r = this->shift_TO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(377, r);
                             break;
                         default:
@@ -13852,9 +11797,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(378, r);
                             break;
                         default:
@@ -13866,9 +11809,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::KET:
                             r = this->shift_KET();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(379, r);
                             break;
                         default:
@@ -13890,22 +11831,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13927,15 +11861,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_44();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -13957,22 +11886,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -13994,15 +11916,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_57();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(4);
                             flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -14024,22 +11941,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -14062,22 +11972,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -14089,23 +11992,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -14127,22 +12024,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -14164,22 +12054,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -14200,15 +12083,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_16();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -14220,85 +12098,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -14310,85 +12163,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(388, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -14400,85 +12228,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -14500,22 +12303,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -14527,23 +12323,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(163, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(169, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(170, r);
                             break;
                         default:
@@ -14565,22 +12355,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -14602,22 +12385,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -14629,85 +12405,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(244, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(245, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(246, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(248, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(260, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(262, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(263, r);
                             break;
                         default:
@@ -14719,85 +12470,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -14819,15 +12545,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(11);
                             flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -14850,15 +12571,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(6);
                             flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -14870,9 +12586,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(399, r);
                             break;
                         default:
@@ -14884,85 +12598,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -14974,85 +12663,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -15064,9 +12728,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(402, r);
                             break;
                         default:
@@ -15078,23 +12740,17 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(69, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(75, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(76, r);
                             break;
                         default:
@@ -15106,9 +12762,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(404, r);
                             break;
                         default:
@@ -15120,85 +12774,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(388, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -15210,9 +12839,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(406, r);
                             break;
                         default:
@@ -15234,15 +12861,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_17();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(6);
                             flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -15254,9 +12876,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::DO:
                             r = this->shift_DO();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(407, r);
                             break;
                         default:
@@ -15268,85 +12888,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -15358,85 +12953,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -15449,85 +13019,60 @@ public:
                         case LNodeType::ELSE:
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(244, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(245, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(246, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(248, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(260, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(262, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(263, r);
                             break;
                         default:
@@ -15539,9 +13084,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(411, r);
                             break;
                         default:
@@ -15553,9 +13096,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(412, r);
                             break;
                         default:
@@ -15577,22 +13118,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -15604,9 +13138,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(414, r);
                             break;
                         default:
@@ -15618,9 +13150,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(415, r);
                             break;
                         default:
@@ -15642,22 +13172,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(1, r);
                             break;
                         default:
@@ -15669,22 +13192,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(126, r);
                             break;
                         default:
@@ -15707,22 +13223,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -15734,15 +13243,10 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -15765,22 +13269,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -15802,22 +13299,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -15829,9 +13319,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(421, r);
                             break;
                         default:
@@ -15843,9 +13331,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(422, r);
                             break;
                         default:
@@ -15857,22 +13343,15 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_43();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(2);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::ELSE:
                             r = this->shift_ELSE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(423, r);
                             break;
                         default:
@@ -15894,22 +13373,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -15931,22 +13403,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -15958,85 +13423,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -16059,22 +13499,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -16097,22 +13530,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -16134,15 +13560,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(13);
                             flag = this->GOTO(this->top_state(), LNodeType::IEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16154,9 +13575,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::THEN:
                             r = this->shift_THEN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(429, r);
                             break;
                         default:
@@ -16179,15 +13598,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16210,15 +13624,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16230,85 +13639,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -16330,22 +13714,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -16367,22 +13744,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -16403,22 +13773,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(353, r);
                             break;
                         default:
@@ -16440,15 +13803,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_31();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16470,15 +13828,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_56();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(8);
                             flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16490,9 +13843,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(434, r);
                             break;
                         default:
@@ -16515,15 +13866,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16546,15 +13892,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16576,22 +13917,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -16603,9 +13937,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(436, r);
                             break;
                         default:
@@ -16627,15 +13959,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_25();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16657,15 +13984,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_26();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(9);
                             flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -16677,72 +13999,52 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -16765,22 +14067,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(322, r);
                             break;
                         default:
@@ -16792,85 +14087,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_42();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(388, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -16892,22 +14162,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -16919,85 +14182,60 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->reduce_50();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BRAC:
                             r = this->shift_BRAC();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(5, r);
                             break;
                         case LNodeType::BREAK:
                             r = this->shift_BREAK();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(265, r);
                             break;
                         case LNodeType::FOR:
                             r = this->shift_FOR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(266, r);
                             break;
                         case LNodeType::FUNCTION:
                             r = this->shift_FUNCTION();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(267, r);
                             break;
                         case LNodeType::IF:
                             r = this->shift_IF();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(268, r);
                             break;
                         case LNodeType::RETURN:
                             r = this->shift_RETURN();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(279, r);
                             break;
                         case LNodeType::INT:
                             r = this->shift_INT();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(30, r);
                             break;
                         case LNodeType::VAR:
                             r = this->shift_VAR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(31, r);
                             break;
                         case LNodeType::WHILE:
                             r = this->shift_WHILE();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(284, r);
                             break;
                         case LNodeType::YIELD:
                             r = this->shift_YIELD();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(286, r);
                             break;
                         default:
@@ -17020,15 +14258,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(11);
                             flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -17050,15 +14283,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_24();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(11);
                             flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:
@@ -17070,9 +14298,7 @@ public:
                     switch (this->peek.type) {
                         case LNodeType::END:
                             r = this->shift_END();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(441, r);
                             break;
                         default:
@@ -17094,22 +14320,15 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_15();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(0);
                             flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         case LNodeType::BR:
                             r = this->shift_BR();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(219, r);
                             break;
                         default:
@@ -17131,15 +14350,10 @@ public:
                         case LNodeType::WHILE:
                         case LNodeType::YIELD:
                             r = this->reduce_30();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop(13);
                             flag = this->GOTO(this->top_state(), LNodeType::IEStmt);
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;
                         default:

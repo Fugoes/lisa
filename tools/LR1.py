@@ -341,9 +341,11 @@ public:
                     {% for Ts, state_to_push in xs %}{% for T in Ts %}case LNodeType::{{ T }}:
                         {% endfor %}return {{ state_to_push }};
                     {% endfor %}default:
+                        this->error();
                         return -1;
                 }
             {% endfor %}default:
+                this->error();
                 return -1;
         }
     }
@@ -361,20 +363,13 @@ public:
                 {% for state, lines in g["parse"] %}case {{ state }}:
                     switch (this->peek.type) {% raw %}{{% endraw %}{% for is_case, is_shift, is_reduce, a, b in lines %}
                         {% if is_case %}case LNodeType::{{ a }}:{% elif is_shift %}    r = this->shift_{{ a }}();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push({{ b }}, r);
                             break;{% else %}    r = this->reduce_{{ a }}();
-                            if (this->terminated) {
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->pop({{ g["pop_num"][a] }});
                             flag = this->GOTO(this->top_state(), LNodeType::{{ g["as"][a] }});
-                            if (flag < 0) {
-                                this->error();
-                                break;
-                            }
+                            if (this->terminated) break;
                             this->push(flag, r);
                             break;{% endif %}{% endfor %}
                         default:
