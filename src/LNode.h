@@ -34,8 +34,8 @@ public:
 };
 
 template<class T>
-static LNodeData<T> *lnode_get(LNode *p) {
-    return static_cast<LNodeData<T> *>(p);
+static std::shared_ptr<LNodeData<T>> lnode_get(std::shared_ptr<LNode> p) {
+    return std::static_pointer_cast<LNodeData<T>>(p);
 }
 
 #endif //LISA_LNODE_H

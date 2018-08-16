@@ -1,295 +1,356 @@
+#include <utility>
+
 #include "LParser.h"
 
 #include <sstream>
+#include <vector>
 
+class LNodeChildren {
+public:
+    std::vector<std::shared_ptr<LNode>> children;
+
+    LNodeChildren() = default;
+};
+
+class LNodeAtom {
+public:
+    std::shared_ptr<LNode> expr_or_var;
+    std::shared_ptr<LNode> fcalls;
+
+    LNodeAtom(std::shared_ptr<LNode> expr_or_var, std::shared_ptr<LNode> fcalls) {
+        this->expr_or_var = std::move(expr_or_var);
+        this->fcalls = std::move(fcalls);
+    }
+
+    LNodeAtom() = default;
+};
+
+class LNodeExpr {
+public:
+    std::shared_ptr<LNode> op;
+    std::shared_ptr<LNode> l;
+    std::shared_ptr<LNode> r;
+
+    LNodeExpr(std::shared_ptr<LNode> op, std::shared_ptr<LNode> l, std::shared_ptr<LNode> r) {
+        this->op = std::move(op);
+        this->l = std::move(l);
+        this->r = std::move(r);
+    }
+
+    LNodeExpr() = default;
+};
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_0() {
     // Atom : BRAC Expr KET FCalls
-    return nullptr;
+    auto expr = this->get_node(3);
+    auto fcalls = this->get_node(1);
+    auto atom = std::make_shared<LNodeData<LNodeAtom>>(LNodeType::Atom, LNodeAtom(expr, fcalls));
+    return std::static_pointer_cast<LNode>(atom);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_1() {
     // Atom : Var FCalls
-    return nullptr;
+    auto var = this->get_node(2);
+    auto fcalls = this->get_node(1);
+    auto atom = std::make_shared<LNodeData<LNodeAtom>>(LNodeType::Atom, LNodeAtom(var, fcalls));
+    return std::static_pointer_cast<LNode>(atom);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_2() {
     // Atoms : 
-    return nullptr;
+    return std::make_shared<LNodeData<LNodeChildren>>(LNodeType::Atoms, LNodeChildren());
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_3() {
     // Atoms : Atom Atoms
-    return nullptr;
+    auto atom = this->get_node(2);
+    auto atoms = this->get_node(1);
+    lnode_get<LNodeChildren>(atoms)->value.children.push_back(atom);
+    return atoms;
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_4() {
     // BStmt : BREAK
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::BStmt);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_5() {
     // BinOP0 : DIV
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_6() {
     // BinOP0 : MUL
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_7() {
     // BinOP1 : ADD
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_8() {
     // BinOP1 : SUB
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_9() {
     // BinOP2 : EQ
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_10() {
     // BinOP2 : G
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_11() {
     // BinOP2 : GEQ
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_12() {
     // BinOP2 : L
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_13() {
     // BinOP2 : LEQ
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_14() {
     // BinOP2 : NEQ
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_15() {
     // Brs : 
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::Brs);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_16() {
     // Brs : BR Brs
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_17() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_17() { // TODO
     // EStmt : Var Vars EQUAL Expr BR Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_18() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_18() { // TODO
     // Expr : Expr1
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_19() {
     // Expr : Expr1 BinOP2 Expr
-    return nullptr;
+    auto expr1 = this->get_node(3);
+    auto op = this->get_node(2);
+    auto expr = this->get_node(1);
+    auto r = std::make_shared<LNodeData<LNodeExpr>>(LNodeType::Expr, LNodeExpr(op, expr1, expr));
+    return r;
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_20() {
     // Expr0 : Atom
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_21() {
     // Expr0 : Atom BinOP0 Expr0
-    return nullptr;
+    auto atom = this->get_node(3);
+    auto op = this->get_node(2);
+    auto expr0 = this->get_node(1);
+    auto r = std::make_shared<LNodeData<LNodeExpr>>(LNodeType::Expr, LNodeExpr(op, atom, expr0));
+    return r;
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_22() {
     // Expr1 : Expr0
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_23() {
     // Expr1 : Expr0 BinOP1 Expr1
-    return nullptr;
+    auto atom = this->get_node(3);
+    auto op = this->get_node(2);
+    auto expr1 = this->get_node(1);
+    auto r = std::make_shared<LNodeData<LNodeExpr>>(LNodeType::Expr, LNodeExpr(op, atom, expr1));
+    return r;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_24() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_24() { // TODO
     // F0Stmt : FOR Var EQUAL Expr TO Expr DO Brs Stmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_25() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_25() { // TODO
     // F1Stmt : FOR Var IN Expr DO Brs Stmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_26() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_26() { // TODO
     // FCStmt : FUNCTION Var FBRAC Vars KET Brs Stmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_27() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_27() { // TODO
     // FCall : FBRAC Atoms KET
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_28() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_28() { // TODO
     // FCalls : 
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_29() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_29() { // TODO
     // FCalls : FCall FCalls
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_30() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_30() { // TODO
     // IEStmt : IF Expr Brs THEN Brs NIEStmt NIEStmts ELSE Brs Stmt Stmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_31() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_31() { // TODO
     // IStmt : IF Expr Brs THEN Brs NIEStmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_32() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_32() { // TODO
     // NIEStmt : BStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_33() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_33() { // TODO
     // NIEStmt : EStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_34() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_34() { // TODO
     // NIEStmt : F0Stmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_35() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_35() { // TODO
     // NIEStmt : F1Stmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_36() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_36() { // TODO
     // NIEStmt : FCStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_37() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_37() { // TODO
     // NIEStmt : IStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_38() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_38() { // TODO
     // NIEStmt : RStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_39() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_39() { // TODO
     // NIEStmt : SStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_40() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_40() { // TODO
     // NIEStmt : WStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_41() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_41() { // TODO
     // NIEStmt : YStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_42() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_42() { // TODO
     // NIEStmts : 
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_43() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_43() { // TODO
     // NIEStmts : NIEStmt NIEStmts
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_44() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_44() { // TODO
     // RStmt : RETURN Vars BR Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_45() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_45() { // TODO
     // Root : Start
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_46() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_46() { // TODO
     // SStmt : Expr BR Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_47() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_47() { // TODO
     // Start : Brs Stmts
     this->accept();
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_48() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_48() { // TODO
     // Stmt : IEStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_49() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_49() { // TODO
     // Stmt : NIEStmt
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_50() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_50() { // TODO
     // Stmts : 
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_51() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_51() { // TODO
     // Stmts : Stmt Stmts
     return nullptr;
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_52() {
     // Var : INT
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_53() {
     // Var : VAR
-    return nullptr;
+    return this->get_node(1);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_54() {
     // Vars : 
-    return nullptr;
+    return std::make_shared<LNodeData<LNodeChildren>>(LNodeType::Vars, LNodeChildren());
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::reduce_55() {
     // Vars : Var Vars
-    return nullptr;
+    auto var = this->get_node(2);
+    auto vars = this->get_node(1);
+    lnode_get<LNodeChildren>(vars)->value.children.push_back(var);
+    return vars;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_56() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_56() { // TODO
     // WStmt : WHILE Expr Brs DO Brs Stmts END Brs
     return nullptr;
 }
 
-std::optional<std::shared_ptr<LNode>> LParser::reduce_57() {
+std::optional<std::shared_ptr<LNode>> LParser::reduce_57() { // TODO
     // YStmt : YIELD Vars BR Brs
     return nullptr;
 }
