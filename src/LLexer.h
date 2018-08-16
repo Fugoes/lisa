@@ -20,6 +20,8 @@ public:
 
     std::optional<LToken> from_string(std::string token);
 
+    virtual ~LLexer() = default;
+
 private:
     virtual char peek() = 0;
 
@@ -29,6 +31,8 @@ private:
 class LStringLexer : public LLexer {
 public:
     explicit LStringLexer(std::string str);
+
+    ~LStringLexer() override = default;
 
 private:
     std::string str;
