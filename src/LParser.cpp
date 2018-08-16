@@ -296,92 +296,92 @@ std::optional<std::shared_ptr<LNode>> LParser::reduce_57() {
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_ADD() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::ADD);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_BR() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::BR);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_BRAC() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::BRAC);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_BREAK() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::BREAK);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_DIV() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::DIV);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_DO() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::DO);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_ELSE() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::ELSE);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_END() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::END);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_EOFF() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::EOFF);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_EQ() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::EQ);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_EQUAL() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::EQUAL);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_FBRAC() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::FBRAC);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_FOR() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::FOR);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_FUNCTION() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::FUNCTION);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_G() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::G);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_GEQ() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::GEQ);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_IF() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::IF);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_IN() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::IN);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_INT() {
@@ -392,47 +392,47 @@ std::optional<std::shared_ptr<LNode>> LParser::shift_INT() {
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_KET() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::KET);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_L() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::L);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_LEQ() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::LEQ);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_MUL() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::MUL);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_NEQ() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::NEQ);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_RETURN() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::RETURN);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_SUB() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::SUB);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_THEN() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::THEN);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_TO() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::TO);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_VAR() {
@@ -443,10 +443,10 @@ std::optional<std::shared_ptr<LNode>> LParser::shift_VAR() {
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_WHILE() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::WHILE);
 }
 
 std::optional<std::shared_ptr<LNode>> LParser::shift_YIELD() {
     this->move();
-    return nullptr;
+    return std::make_shared<LNode>(LNodeType::YIELD);
 }
