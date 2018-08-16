@@ -1,4 +1,4 @@
-// use uppercase words as terminators, mixed case words as non-terminators
+// use uppercase words as terminals, mixed case words as non-terminals
 // E as empty
 // Always include 'Root : Start'!
 Root     : Start
