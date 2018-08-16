@@ -137,7 +137,7 @@ std::shared_ptr<LNode> LParser::reduce_3() {
 }
 
 std::shared_ptr<LNode> LParser::reduce_4() {
-    // BStmt : BREAK
+    // BStmt : BREAK BR Brs
     return std::make_shared<LNode>(LNodeType::BStmt);
 }
 
@@ -375,6 +375,7 @@ std::shared_ptr<LNode> LParser::reduce_44() { // TODO
 
 std::shared_ptr<LNode> LParser::reduce_45() { // TODO
     // Root : Start
+    this->accept();
     return nullptr;
 }
 
@@ -385,7 +386,6 @@ std::shared_ptr<LNode> LParser::reduce_46() { // TODO
 
 std::shared_ptr<LNode> LParser::reduce_47() { // TODO
     // Start : Brs Stmts
-    this->accept();
     return nullptr;
 }
 

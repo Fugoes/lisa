@@ -22,7 +22,7 @@ std::shared_ptr<LNode> LParser::reduce_3() {
 }
 
 std::shared_ptr<LNode> LParser::reduce_4() {
-    // BStmt : BREAK
+    // BStmt : BREAK BR Brs
     return std::make_shared<LNode>();
 }
 

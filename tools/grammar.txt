@@ -46,7 +46,7 @@ F0Stmt   : FOR Var EQUAL Expr TO Expr DO Brs Stmts END Brs
 F1Stmt   : FOR Var IN Expr DO Brs Stmts END Brs
 RStmt    : RETURN Vars BR Brs
 YStmt    : YIELD Vars BR Brs
-BStmt    : BREAK
+BStmt    : BREAK BR Brs
 IStmt    : IF Expr Brs THEN Brs NIEStmts END Brs
 NIEStmt  : EStmt
          | SStmt
