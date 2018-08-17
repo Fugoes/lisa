@@ -104,6 +104,62 @@ public:
     LNodeF1Stmt() = default;
 };
 
+class LNodeFCStmt {
+public:
+    std::shared_ptr<LNode> name;
+    std::shared_ptr<LNode> parameters;
+    std::shared_ptr<LNode> stmts;
+
+    LNodeFCStmt(std::shared_ptr<LNode> name, std::shared_ptr<LNode> parameters, std::shared_ptr<LNode> stmts) {
+        this->name = std::move(name);
+        this->parameters = std::move(parameters);
+        this->stmts = std::move(stmts);
+    }
+
+    LNodeFCStmt() = default;
+};
+
+class LNodeIEStmt {
+public:
+    std::shared_ptr<LNode> condition;
+    std::shared_ptr<LNode> then_branch;
+    std::shared_ptr<LNode> else_branch;
+
+    LNodeIEStmt(std::shared_ptr<LNode> condition,
+                std::shared_ptr<LNode> then_branch, std::shared_ptr<LNode> else_branch) {
+        this->condition = std::move(condition);
+        this->then_branch = std::move(then_branch);
+        this->else_branch = std::move(else_branch);
+    }
+
+    LNodeIEStmt() = default;
+};
+
+class LNodeIStmt {
+public:
+    std::shared_ptr<LNode> condition;
+    std::shared_ptr<LNode> then_branch;
+
+    LNodeIStmt(std::shared_ptr<LNode> condition, std::shared_ptr<LNode> then_branch) {
+        this->condition = std::move(condition);
+        this->then_branch = std::move(then_branch);
+    }
+
+    LNodeIStmt() = default;
+};
+
+class LNodeRStmt {
+public:
+    std::shared_ptr<LNode> vars;
+
+    explicit LNodeRStmt(std::shared_ptr<LNode> vars) {
+        this->vars = std::move(vars);
+    }
+
+    LNodeRStmt() = default;
+};
+
+
 std::shared_ptr<LNode> LParser::reduce_0() {
     // Atom : BRAC Expr KET FCalls
     auto expr = this->get_node(3);
@@ -263,7 +319,7 @@ std::shared_ptr<LNode> LParser::reduce_24() {
     return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_25() { // TODO
+std::shared_ptr<LNode> LParser::reduce_25() {
     // F1Stmt : FOR Var IN Expr DO Brs Stmts END Brs
     auto var = this->get_node(8);
     auto expr = this->get_node(6);
@@ -275,135 +331,170 @@ std::shared_ptr<LNode> LParser::reduce_25() { // TODO
     return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_26() { // TODO
+std::shared_ptr<LNode> LParser::reduce_26() {
     // FCStmt : FUNCTION Var FBRAC Vars KET Brs Stmts END Brs
-    return nullptr;
+    auto name = this->get_node(8);
+    auto parameters = this->get_node(6);
+    auto stmts = this->get_node(3);
+    auto r = std::make_shared<LNodeData<LNodeFCStmt>>(
+            LNodeType::FCStmt,
+            LNodeFCStmt(std::move(name), std::move(parameters), std::move(stmts))
+    );
+    return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_27() { // TODO
+std::shared_ptr<LNode> LParser::reduce_27() {
     // FCall : FBRAC Atoms KET
-    return nullptr;
+    return this->get_node(2);
 }
 
-std::shared_ptr<LNode> LParser::reduce_28() { // TODO
+std::shared_ptr<LNode> LParser::reduce_28() {
     // FCalls : 
-    return nullptr;
+    return std::make_shared<LNodeData<LNodeChildren>>(LNodeType::FCalls, LNodeChildren());
 }
 
-std::shared_ptr<LNode> LParser::reduce_29() { // TODO
+std::shared_ptr<LNode> LParser::reduce_29() {
     // FCalls : FCall FCalls
-    return nullptr;
+    auto fcall = this->get_node(2);
+    auto fcalls = this->get_node(1);
+    lnode_get<LNodeChildren>(fcalls)->value.push_front(fcall);
+    return fcalls;
 }
 
-std::shared_ptr<LNode> LParser::reduce_30() { // TODO
+std::shared_ptr<LNode> LParser::reduce_30() {
     // IEStmt : IF Expr Brs THEN Brs NIEStmt NIEStmts ELSE Brs Stmt Stmts END Brs
-    return nullptr;
+    auto condition = this->get_node(12);
+    auto stmt0 = this->get_node(8);
+    auto then_branch = this->get_node(7);
+    auto stmt1 = this->get_node(4);
+    auto else_branch = this->get_node(3);
+    lnode_get<LNodeChildren>(then_branch)->value.push_front(stmt0);
+    lnode_get<LNodeChildren>(else_branch)->value.push_front(stmt1);
+    auto r = std::make_shared<LNodeData<LNodeIEStmt>>(
+            LNodeType::IEStmt,
+            LNodeIEStmt(condition, then_branch, else_branch)
+    );
+    return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_31() { // TODO
+std::shared_ptr<LNode> LParser::reduce_31() {
     // IStmt : IF Expr Brs THEN Brs NIEStmts END Brs
-    return nullptr;
+    auto condition = this->get_node(7);
+    auto then_branch = this->get_node(3);
+    auto r = std::make_shared<LNodeData<LNodeIStmt>>(
+            LNodeType::IStmt,
+            LNodeIStmt(condition, then_branch)
+    );
+    return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_32() { // TODO
+std::shared_ptr<LNode> LParser::reduce_32() {
     // NIEStmt : BStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_33() { // TODO
+std::shared_ptr<LNode> LParser::reduce_33() {
     // NIEStmt : EStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_34() { // TODO
+std::shared_ptr<LNode> LParser::reduce_34() {
     // NIEStmt : F0Stmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_35() { // TODO
+std::shared_ptr<LNode> LParser::reduce_35() {
     // NIEStmt : F1Stmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_36() { // TODO
+std::shared_ptr<LNode> LParser::reduce_36() {
     // NIEStmt : FCStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_37() { // TODO
+std::shared_ptr<LNode> LParser::reduce_37() {
     // NIEStmt : IStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_38() { // TODO
+std::shared_ptr<LNode> LParser::reduce_38() {
     // NIEStmt : RStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_39() { // TODO
+std::shared_ptr<LNode> LParser::reduce_39() {
     // NIEStmt : SStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_40() { // TODO
+std::shared_ptr<LNode> LParser::reduce_40() {
     // NIEStmt : WStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_41() { // TODO
+std::shared_ptr<LNode> LParser::reduce_41() {
     // NIEStmt : YStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_42() { // TODO
+std::shared_ptr<LNode> LParser::reduce_42() {
     // NIEStmts : 
-    return nullptr;
+    return std::make_shared<LNodeData<LNodeChildren>>(LNodeType::NIEStmt, LNodeChildren());
 }
 
-std::shared_ptr<LNode> LParser::reduce_43() { // TODO
+std::shared_ptr<LNode> LParser::reduce_43() {
     // NIEStmts : NIEStmt NIEStmts
-    return nullptr;
+    auto stmt = this->get_node(2);
+    auto niestmts = this->get_node(1);
+    lnode_get<LNodeChildren>(niestmts)->value.push_front(stmt);
+    return niestmts;
 }
 
-std::shared_ptr<LNode> LParser::reduce_44() { // TODO
+std::shared_ptr<LNode> LParser::reduce_44() {
     // RStmt : RETURN Vars BR Brs
-    return nullptr;
+    auto vars = this->get_node(3);
+    auto r = std::make_shared<LNodeData<LNodeRStmt>>(LNodeType::RStmt, LNodeRStmt(vars));
+    return r;
 }
 
-std::shared_ptr<LNode> LParser::reduce_45() { // TODO
+std::shared_ptr<LNode> LParser::reduce_45() {
     // Root : Start
     this->accept();
     return nullptr;
 }
 
-std::shared_ptr<LNode> LParser::reduce_46() { // TODO
+std::shared_ptr<LNode> LParser::reduce_46() {
     // SStmt : Expr BR Brs
-    return nullptr;
+    return this->get_node(3);
 }
 
-std::shared_ptr<LNode> LParser::reduce_47() { // TODO
+std::shared_ptr<LNode> LParser::reduce_47() {
     // Start : Brs Stmts
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_48() { // TODO
+std::shared_ptr<LNode> LParser::reduce_48() {
     // Stmt : IEStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_49() { // TODO
+std::shared_ptr<LNode> LParser::reduce_49() {
     // Stmt : NIEStmt
-    return nullptr;
+    return this->get_node(1);
 }
 
-std::shared_ptr<LNode> LParser::reduce_50() { // TODO
+std::shared_ptr<LNode> LParser::reduce_50() {
     // Stmts : 
-    return nullptr;
+    return std::make_shared<LNodeData<LNodeChildren>>(LNodeType::Vars, LNodeChildren());
 }
 
-std::shared_ptr<LNode> LParser::reduce_51() { // TODO
+std::shared_ptr<LNode> LParser::reduce_51() {
     // Stmts : Stmt Stmts
-    return nullptr;
+    auto stmt = this->get_node(2);
+    auto stmts = this->get_node(1);
+    lnode_get<LNodeChildren>(stmts)->value.push_front(stmt);
+    return stmts;
 }
 
 std::shared_ptr<LNode> LParser::reduce_52() {
