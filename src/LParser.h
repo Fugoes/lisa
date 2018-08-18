@@ -8,28 +8,37 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-#include <cstdlib>
+#include <exception>
+
+class LParserException : std::exception {
+public:
+    std::string detail;
+
+    explicit LParserException(std::string &&detail) {
+        this->detail = std::move(detail);
+    }
+
+    virtual const char *what() const throw() {
+        return this->detail.c_str();
+    }
+};
 
 class LParser {
 public:
     std::unique_ptr<LLexer> lexer;
 
-    LToken peek;
+    std::shared_ptr<LToken> peek;
 
     std::vector<int> state_stack;
 
     std::vector<std::shared_ptr<LNode>> node_stack;
 
-    bool terminated{false};
-
     void error() {
-        std::cout << "ERROR" << std::endl;
-        this->terminated = true;
+        throw LParserException("ERROR");
     }
 
     void accept() {
-        std::cout << "ACCEPT" << std::endl;
-        this->terminated = true;
+        throw LParserException("ACCEPT");
     }
 
     std::shared_ptr<LNode> get_node(int i) {
@@ -37,8 +46,8 @@ public:
     }
 
     void move() {
-        this->peek = this->lexer->next_token().value();
-        std::cout << this->peek.str() << std::endl;
+        this->peek = this->lexer->next_token();
+        std::cout << this->peek->str() << std::endl;
     }
 
     void pop(int n) {
@@ -3062,11309 +3071,9658 @@ public:
     void parse() {
         this->push(0, nullptr);
         std::shared_ptr<LNode> r;
-        int flag = -1;
-        while (!this->terminated) {
-            switch (this->top_state()) {
-                case 0:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch (this->peek.type) {
-                        case LNodeType::EOFF:
-                            r = this->reduce_45();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Root);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 3:
-                    switch (this->peek.type) {
-                        case LNodeType::EOFF:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(7, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(11, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(12, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(13, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(24, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(32, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(33, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 4:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 5:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 6:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQUAL:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(46, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(47, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 7:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(49, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 8:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 9:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 10:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 11:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(64, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(65, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 12:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(67, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(68, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 13:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 14:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_32();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 15:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_33();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 16:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_34();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 17:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_35();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 18:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_36();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 19:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_37();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 20:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_38();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 21:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_39();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 22:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_40();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 23:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_41();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 24:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 25:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(81, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 26:
-                    switch (this->peek.type) {
-                        case LNodeType::EOFF:
-                            r = this->reduce_47();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Start);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 27:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_48();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 28:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_49();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 29:
-                    switch (this->peek.type) {
-                        case LNodeType::EOFF:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(7, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(11, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(12, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(13, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(24, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(32, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(33, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 30:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::EQUAL:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::INT:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::VAR:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 31:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::EQUAL:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::INT:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::VAR:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 32:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 33:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 34:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 35:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(94, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 36:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(96, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 37:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 38:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 39:
-                    switch (this->peek.type) {
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 40:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 41:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 42:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 43:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(100, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 44:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 45:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 46:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 47:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 48:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(46, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(47, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 49:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 50:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_9();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 51:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_10();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 52:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_11();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 53:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_12();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 54:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_13();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 55:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_14();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP2);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 56:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 57:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_5();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 58:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_6();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 59:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 60:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_7();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 61:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_8();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::BinOP1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 62:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 63:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(116, r);
-                            break;
-                        case LNodeType::IN:
-                            r = this->shift_IN();
-                            if (this->terminated) break;
-                            this->push(117, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 64:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                        case LNodeType::IN:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 65:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                        case LNodeType::IN:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 66:
-                    switch (this->peek.type) {
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(118, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 67:
-                    switch (this->peek.type) {
-                        case LNodeType::FBRAC:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 68:
-                    switch (this->peek.type) {
-                        case LNodeType::FBRAC:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 69:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 70:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(121, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 71:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::THEN:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 72:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 73:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::THEN:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 74:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(126, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 75:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 76:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 77:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(128, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 78:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 79:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::INT:
-                        case LNodeType::VAR:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 80:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 81:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 82:
-                    switch (this->peek.type) {
-                        case LNodeType::EOFF:
-                            r = this->reduce_51();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 83:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 84:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(133, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 85:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 86:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 87:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 88:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 89:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 90:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(138, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 91:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(140, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 92:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(141, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 93:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 94:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 95:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(94, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 96:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 97:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 98:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 99:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 100:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 101:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 102:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(151, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 103:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 104:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(154, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 105:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::FBRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 106:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::FBRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 107:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 108:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->reduce_55();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 109:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_4();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 110:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 111:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 112:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 113:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 114:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 115:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 116:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 117:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 118:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(172, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(173, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 119:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(175, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 120:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 121:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 122:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(121, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 123:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 124:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 125:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 126:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(126, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 127:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->shift_THEN();
-                            if (this->terminated) break;
-                            this->push(182, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 128:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 129:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_55();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 130:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_46();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 131:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(184, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 132:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 133:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 134:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(133, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 135:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 136:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 137:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 138:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(138, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 139:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(191, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 140:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 141:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(94, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 142:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(194, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 143:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 144:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 145:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 146:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 147:
-                    switch (this->peek.type) {
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 148:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(195, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 149:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(196, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 150:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 151:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 152:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(151, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 153:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_3();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 154:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 155:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 156:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(201, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 157:
-                    switch (this->peek.type) {
-                        case LNodeType::TO:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 158:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 159:
-                    switch (this->peek.type) {
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::TO:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 160:
-                    switch (this->peek.type) {
-                        case LNodeType::TO:
-                            r = this->shift_TO();
-                            if (this->terminated) break;
-                            this->push(206, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 161:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 162:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 163:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(34, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(40, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(41, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 164:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(209, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 165:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_18();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQ:
-                            r = this->shift_EQ();
-                            if (this->terminated) break;
-                            this->push(50, r);
-                            break;
-                        case LNodeType::G:
-                            r = this->shift_G();
-                            if (this->terminated) break;
-                            this->push(51, r);
-                            break;
-                        case LNodeType::GEQ:
-                            r = this->shift_GEQ();
-                            if (this->terminated) break;
-                            this->push(52, r);
-                            break;
-                        case LNodeType::L:
-                            r = this->shift_L();
-                            if (this->terminated) break;
-                            this->push(53, r);
-                            break;
-                        case LNodeType::LEQ:
-                            r = this->shift_LEQ();
-                            if (this->terminated) break;
-                            this->push(54, r);
-                            break;
-                        case LNodeType::NEQ:
-                            r = this->shift_NEQ();
-                            if (this->terminated) break;
-                            this->push(55, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 166:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_20();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::DIV:
-                            r = this->shift_DIV();
-                            if (this->terminated) break;
-                            this->push(57, r);
-                            break;
-                        case LNodeType::MUL:
-                            r = this->shift_MUL();
-                            if (this->terminated) break;
-                            this->push(58, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 167:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_22();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ADD:
-                            r = this->shift_ADD();
-                            if (this->terminated) break;
-                            this->push(60, r);
-                            break;
-                        case LNodeType::SUB:
-                            r = this->shift_SUB();
-                            if (this->terminated) break;
-                            this->push(61, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 168:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(214, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 169:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 170:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 171:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(215, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 172:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_52();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 173:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_53();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Var);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 174:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(172, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(173, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 175:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(121, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 176:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(218, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 177:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 178:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::THEN:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 179:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 180:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::THEN:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 181:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 182:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 183:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_44();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 184:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(133, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 185:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(222, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 186:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 187:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 188:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 189:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 190:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 191:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 192:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_57();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 193:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 194:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::KET:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 195:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 196:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(151, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 197:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(226, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 198:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 199:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(227, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 200:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 201:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 202:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(201, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 203:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 204:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 205:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 206:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 207:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(234, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 208:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_1();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 209:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_2();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atoms);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(101, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(105, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(106, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 210:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(209, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 211:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 212:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 213:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 214:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 215:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 216:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_55();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 217:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 218:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::THEN:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 219:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 220:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(244, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(245, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(246, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(248, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(260, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(262, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(263, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 221:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 222:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 223:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 224:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_17();
-                            if (this->terminated) break;
-                            this->pop(6);
-                            flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 225:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 226:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::FBRAC:
-                        case LNodeType::INT:
-                        case LNodeType::KET:
-                        case LNodeType::VAR:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 227:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(201, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 228:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(288, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 229:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 230:
-                    switch (this->peek.type) {
-                        case LNodeType::TO:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 231:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 232:
-                    switch (this->peek.type) {
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::TO:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 233:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(289, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 234:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(209, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 235:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(291, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 236:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_29();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 237:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_19();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 238:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_21();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr0);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 239:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::NEQ:
-                            r = this->reduce_23();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::Expr1);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 240:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 241:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 242:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 243:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQUAL:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(46, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(47, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 244:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(295, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 245:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(64, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(65, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 246:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(67, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(68, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 247:
-                    switch (this->peek.type) {
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(244, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(245, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(246, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(248, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(260, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(262, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(263, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 248:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 249:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(301, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 250:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_32();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 251:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_33();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 252:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_34();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 253:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_35();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 254:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_36();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 255:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_37();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 256:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_38();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 257:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_39();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 258:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_40();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 259:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_41();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 260:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 261:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(303, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 262:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 263:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 264:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::BR:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_28();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCalls);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::EQUAL:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(44, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(46, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(47, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 265:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(307, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 266:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(64, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(65, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 267:
-                    switch (this->peek.type) {
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(67, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(68, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 268:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 269:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_32();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 270:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_33();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 271:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_34();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 272:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_35();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 273:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_36();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 274:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_37();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 275:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_38();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 276:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_39();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 277:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_40();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 278:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_41();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 279:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 280:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(312, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 281:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_48();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 282:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_49();
-                            if (this->terminated) break;
-                            this->pop(1);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 283:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 284:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(83, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(88, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(89, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 285:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(315, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 286:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(78, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(79, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 287:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 288:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                        case LNodeType::TO:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 289:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 290:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_0();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::Atom);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 291:
-                    switch (this->peek.type) {
-                        case LNodeType::ADD:
-                        case LNodeType::DIV:
-                        case LNodeType::DO:
-                        case LNodeType::EQ:
-                        case LNodeType::FBRAC:
-                        case LNodeType::G:
-                        case LNodeType::GEQ:
-                        case LNodeType::L:
-                        case LNodeType::LEQ:
-                        case LNodeType::MUL:
-                        case LNodeType::NEQ:
-                        case LNodeType::SUB:
-                            r = this->reduce_27();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCall);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 292:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(318, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 293:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(319, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 294:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(320, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 295:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 296:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(323, r);
-                            break;
-                        case LNodeType::IN:
-                            r = this->shift_IN();
-                            if (this->terminated) break;
-                            this->push(324, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 297:
-                    switch (this->peek.type) {
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(325, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 298:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_43();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ELSE:
-                            r = this->shift_ELSE();
-                            if (this->terminated) break;
-                            this->push(326, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 299:
-                    switch (this->peek.type) {
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(244, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(245, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(246, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(248, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(260, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(262, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(263, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 300:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(126, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 301:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 302:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(330, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 303:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 304:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(138, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 305:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(333, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 306:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(334, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 307:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 308:
-                    switch (this->peek.type) {
-                        case LNodeType::EQUAL:
-                            r = this->shift_EQUAL();
-                            if (this->terminated) break;
-                            this->push(336, r);
-                            break;
-                        case LNodeType::IN:
-                            r = this->shift_IN();
-                            if (this->terminated) break;
-                            this->push(337, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 309:
-                    switch (this->peek.type) {
-                        case LNodeType::FBRAC:
-                            r = this->shift_FBRAC();
-                            if (this->terminated) break;
-                            this->push(338, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 310:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(126, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 311:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(340, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 312:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 313:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_51();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 314:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(138, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 315:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 316:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(344, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 317:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 318:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 319:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 320:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 321:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_4();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 322:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 323:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 324:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 325:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(172, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(173, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 326:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(353, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 327:
-                    switch (this->peek.type) {
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                            r = this->reduce_43();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 328:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->shift_THEN();
-                            if (this->terminated) break;
-                            this->push(355, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 329:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_31();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 330:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 331:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_46();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 332:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(357, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 333:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 334:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(112, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(113, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 335:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_4();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::BStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 336:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(155, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(161, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(162, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 337:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 338:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->reduce_54();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Vars);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(172, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(173, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 339:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->shift_THEN();
-                            if (this->terminated) break;
-                            this->push(363, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 340:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 341:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_46();
-                            if (this->terminated) break;
-                            this->pop(3);
-                            flag = this->GOTO(this->top_state(), LNodeType::SStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 342:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(365, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 343:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_56();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 344:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 345:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(367, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 346:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_25();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 347:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_26();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 348:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(368, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 349:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 350:
-                    switch (this->peek.type) {
-                        case LNodeType::TO:
-                            r = this->shift_TO();
-                            if (this->terminated) break;
-                            this->push(369, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 351:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(370, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 352:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(371, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 353:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(353, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 354:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 355:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 356:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_44();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 357:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 358:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_57();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 359:
-                    switch (this->peek.type) {
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(376, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 360:
-                    switch (this->peek.type) {
-                        case LNodeType::TO:
-                            r = this->shift_TO();
-                            if (this->terminated) break;
-                            this->push(377, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 361:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(378, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 362:
-                    switch (this->peek.type) {
-                        case LNodeType::KET:
-                            r = this->shift_KET();
-                            if (this->terminated) break;
-                            this->push(379, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 363:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 364:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_44();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::RStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 365:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 366:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_57();
-                            if (this->terminated) break;
-                            this->pop(4);
-                            flag = this->GOTO(this->top_state(), LNodeType::YStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 367:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 368:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 369:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 370:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 371:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 372:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_16();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 373:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 374:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(388, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 375:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 376:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 377:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(163, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(169, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(170, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 378:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 379:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 380:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(244, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(245, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(246, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(248, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(260, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(262, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(263, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 381:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 382:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_24();
-                            if (this->terminated) break;
-                            this->pop(11);
-                            flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 383:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_17();
-                            if (this->terminated) break;
-                            this->pop(6);
-                            flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 384:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(399, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 385:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 386:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 387:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(402, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 388:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(69, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(75, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(76, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 389:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(404, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 390:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(388, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 391:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(406, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 392:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_17();
-                            if (this->terminated) break;
-                            this->pop(6);
-                            flag = this->GOTO(this->top_state(), LNodeType::EStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 393:
-                    switch (this->peek.type) {
-                        case LNodeType::DO:
-                            r = this->shift_DO();
-                            if (this->terminated) break;
-                            this->push(407, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 394:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 395:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 396:
-                    switch (this->peek.type) {
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(244, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(245, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(246, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(248, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(260, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(262, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(263, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 397:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(411, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 398:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(412, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 399:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 400:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(414, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 401:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(415, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 402:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(1, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 403:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(126, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 404:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 405:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_43();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 406:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 407:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 408:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(421, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 409:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(422, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 410:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_43();
-                            if (this->terminated) break;
-                            this->pop(2);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::ELSE:
-                            r = this->shift_ELSE();
-                            if (this->terminated) break;
-                            this->push(423, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 411:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 412:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 413:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 414:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 415:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 416:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::EOFF:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_30();
-                            if (this->terminated) break;
-                            this->pop(13);
-                            flag = this->GOTO(this->top_state(), LNodeType::IEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 417:
-                    switch (this->peek.type) {
-                        case LNodeType::THEN:
-                            r = this->shift_THEN();
-                            if (this->terminated) break;
-                            this->push(429, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 418:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_31();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 419:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_56();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 420:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 421:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 422:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 423:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(353, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 424:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_31();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::IStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 425:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_56();
-                            if (this->terminated) break;
-                            this->pop(8);
-                            flag = this->GOTO(this->top_state(), LNodeType::WStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 426:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(434, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 427:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_25();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 428:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_26();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 429:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 430:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(436, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 431:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_25();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::F1Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 432:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_26();
-                            if (this->terminated) break;
-                            this->pop(9);
-                            flag = this->GOTO(this->top_state(), LNodeType::FCStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 433:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 434:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(322, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 435:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_42();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::NIEStmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(388, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 436:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 437:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->reduce_50();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Stmts);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BRAC:
-                            r = this->shift_BRAC();
-                            if (this->terminated) break;
-                            this->push(5, r);
-                            break;
-                        case LNodeType::BREAK:
-                            r = this->shift_BREAK();
-                            if (this->terminated) break;
-                            this->push(265, r);
-                            break;
-                        case LNodeType::FOR:
-                            r = this->shift_FOR();
-                            if (this->terminated) break;
-                            this->push(266, r);
-                            break;
-                        case LNodeType::FUNCTION:
-                            r = this->shift_FUNCTION();
-                            if (this->terminated) break;
-                            this->push(267, r);
-                            break;
-                        case LNodeType::IF:
-                            r = this->shift_IF();
-                            if (this->terminated) break;
-                            this->push(268, r);
-                            break;
-                        case LNodeType::RETURN:
-                            r = this->shift_RETURN();
-                            if (this->terminated) break;
-                            this->push(279, r);
-                            break;
-                        case LNodeType::INT:
-                            r = this->shift_INT();
-                            if (this->terminated) break;
-                            this->push(30, r);
-                            break;
-                        case LNodeType::VAR:
-                            r = this->shift_VAR();
-                            if (this->terminated) break;
-                            this->push(31, r);
-                            break;
-                        case LNodeType::WHILE:
-                            r = this->shift_WHILE();
-                            if (this->terminated) break;
-                            this->push(284, r);
-                            break;
-                        case LNodeType::YIELD:
-                            r = this->shift_YIELD();
-                            if (this->terminated) break;
-                            this->push(286, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 438:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::ELSE:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_24();
-                            if (this->terminated) break;
-                            this->pop(11);
-                            flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 439:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_24();
-                            if (this->terminated) break;
-                            this->pop(11);
-                            flag = this->GOTO(this->top_state(), LNodeType::F0Stmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 440:
-                    switch (this->peek.type) {
-                        case LNodeType::END:
-                            r = this->shift_END();
-                            if (this->terminated) break;
-                            this->push(441, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 441:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_15();
-                            if (this->terminated) break;
-                            this->pop(0);
-                            flag = this->GOTO(this->top_state(), LNodeType::Brs);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        case LNodeType::BR:
-                            r = this->shift_BR();
-                            if (this->terminated) break;
-                            this->push(219, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                case 442:
-                    switch (this->peek.type) {
-                        case LNodeType::BRAC:
-                        case LNodeType::BREAK:
-                        case LNodeType::END:
-                        case LNodeType::FOR:
-                        case LNodeType::FUNCTION:
-                        case LNodeType::IF:
-                        case LNodeType::INT:
-                        case LNodeType::RETURN:
-                        case LNodeType::VAR:
-                        case LNodeType::WHILE:
-                        case LNodeType::YIELD:
-                            r = this->reduce_30();
-                            if (this->terminated) break;
-                            this->pop(13);
-                            flag = this->GOTO(this->top_state(), LNodeType::IEStmt);
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                default:
-                    this->error();
-                    break;
+        try {
+            while (true) {
+                switch (this->top_state()) {
+                    case 0:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (this->peek->type) {
+                            case LNodeType::EOFF:
+                                r = this->reduce_45();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Root), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (this->peek->type) {
+                            case LNodeType::EOFF:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(7, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(11, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(12, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(13, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(24, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(32, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(33, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 5:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 6:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::EQUAL:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(46, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(47, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 7:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(49, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 8:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 9:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 10:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 11:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(64, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(65, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 12:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(67, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(68, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 13:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 14:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_32();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 15:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_33();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 16:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_34();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 17:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_35();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 18:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_36();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 19:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_37();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 20:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_38();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 21:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_39();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 22:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_40();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 23:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_41();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 24:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 25:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(81, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 26:
+                        switch (this->peek->type) {
+                            case LNodeType::EOFF:
+                                r = this->reduce_47();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Start), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 27:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_48();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 28:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_49();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 29:
+                        switch (this->peek->type) {
+                            case LNodeType::EOFF:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(7, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(11, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(12, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(13, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(24, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(32, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(33, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 30:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::EQUAL:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::INT:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::VAR:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 31:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::EQUAL:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::INT:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::VAR:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 32:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 33:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 34:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 35:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(94, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 36:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(96, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 37:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 38:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 39:
+                        switch (this->peek->type) {
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 40:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 41:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 42:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 43:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(100, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 44:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 45:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 46:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 47:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 48:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(46, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(47, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 49:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 50:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_9();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 51:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_10();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 52:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_11();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 53:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_12();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 54:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_13();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 55:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_14();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP2), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 56:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 57:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_5();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 58:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_6();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 59:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 60:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_7();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 61:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_8();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BinOP1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 62:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 63:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(116, r);
+                                break;
+                            case LNodeType::IN:
+                                r = this->shift_IN();
+                                this->push(117, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 64:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                            case LNodeType::IN:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 65:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                            case LNodeType::IN:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 66:
+                        switch (this->peek->type) {
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(118, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 67:
+                        switch (this->peek->type) {
+                            case LNodeType::FBRAC:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 68:
+                        switch (this->peek->type) {
+                            case LNodeType::FBRAC:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 69:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 70:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(121, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 71:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::THEN:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 72:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 73:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::THEN:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 74:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(126, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 75:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 76:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 77:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(128, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 78:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 79:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::INT:
+                            case LNodeType::VAR:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 80:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 81:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 82:
+                        switch (this->peek->type) {
+                            case LNodeType::EOFF:
+                                r = this->reduce_51();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 83:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 84:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(133, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 85:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 86:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 87:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 88:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 89:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 90:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(138, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 91:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(140, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 92:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(141, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 93:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 94:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 95:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(94, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 96:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 97:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 98:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 99:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 100:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 101:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 102:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(151, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 103:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 104:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(154, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 105:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::FBRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 106:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::FBRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 107:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 108:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->reduce_55();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 109:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_4();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 110:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 111:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 112:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 113:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 114:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 115:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 116:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 117:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 118:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(172, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(173, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 119:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(175, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 120:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 121:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 122:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(121, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 123:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 124:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 125:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 126:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(126, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 127:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->shift_THEN();
+                                this->push(182, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 128:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 129:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_55();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 130:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_46();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::SStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 131:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(184, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 132:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 133:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 134:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(133, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 135:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 136:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 137:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 138:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(138, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 139:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(191, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 140:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 141:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(94, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 142:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(194, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 143:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 144:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 145:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 146:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 147:
+                        switch (this->peek->type) {
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 148:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(195, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 149:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(196, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 150:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 151:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 152:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(151, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 153:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_3();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 154:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 155:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 156:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(201, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 157:
+                        switch (this->peek->type) {
+                            case LNodeType::TO:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 158:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 159:
+                        switch (this->peek->type) {
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::TO:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 160:
+                        switch (this->peek->type) {
+                            case LNodeType::TO:
+                                r = this->shift_TO();
+                                this->push(206, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 161:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 162:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 163:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(34, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(40, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(41, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 164:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(209, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 165:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_18();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            case LNodeType::EQ:
+                                r = this->shift_EQ();
+                                this->push(50, r);
+                                break;
+                            case LNodeType::G:
+                                r = this->shift_G();
+                                this->push(51, r);
+                                break;
+                            case LNodeType::GEQ:
+                                r = this->shift_GEQ();
+                                this->push(52, r);
+                                break;
+                            case LNodeType::L:
+                                r = this->shift_L();
+                                this->push(53, r);
+                                break;
+                            case LNodeType::LEQ:
+                                r = this->shift_LEQ();
+                                this->push(54, r);
+                                break;
+                            case LNodeType::NEQ:
+                                r = this->shift_NEQ();
+                                this->push(55, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 166:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_20();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            case LNodeType::DIV:
+                                r = this->shift_DIV();
+                                this->push(57, r);
+                                break;
+                            case LNodeType::MUL:
+                                r = this->shift_MUL();
+                                this->push(58, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 167:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_22();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            case LNodeType::ADD:
+                                r = this->shift_ADD();
+                                this->push(60, r);
+                                break;
+                            case LNodeType::SUB:
+                                r = this->shift_SUB();
+                                this->push(61, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 168:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(214, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 169:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 170:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 171:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(215, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 172:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_52();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 173:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_53();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Var), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 174:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(172, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(173, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 175:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(121, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 176:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(218, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 177:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 178:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::THEN:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 179:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 180:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::THEN:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 181:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 182:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 183:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_44();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::RStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 184:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(133, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 185:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(222, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 186:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 187:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 188:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 189:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 190:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 191:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 192:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_57();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::YStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 193:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 194:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::KET:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 195:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 196:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(151, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 197:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(226, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 198:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 199:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(227, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 200:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 201:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 202:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(201, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 203:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 204:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 205:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 206:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 207:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(234, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 208:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_1();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 209:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_2();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atoms), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(101, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(105, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(106, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 210:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(209, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 211:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 212:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 213:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 214:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 215:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 216:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_55();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 217:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 218:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::THEN:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 219:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 220:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(244, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(245, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(246, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(248, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(260, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(262, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(263, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 221:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 222:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 223:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 224:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_17();
+                                this->pop(6);
+                                this->push(this->GOTO(this->top_state(), LNodeType::EStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 225:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 226:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::FBRAC:
+                            case LNodeType::INT:
+                            case LNodeType::KET:
+                            case LNodeType::VAR:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 227:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(201, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 228:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(288, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 229:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 230:
+                        switch (this->peek->type) {
+                            case LNodeType::TO:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 231:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 232:
+                        switch (this->peek->type) {
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::TO:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 233:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(289, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 234:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(209, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 235:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(291, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 236:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_29();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 237:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_19();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 238:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_21();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr0), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 239:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::NEQ:
+                                r = this->reduce_23();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Expr1), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 240:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 241:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 242:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 243:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::EQUAL:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(46, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(47, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 244:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(295, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 245:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(64, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(65, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 246:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(67, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(68, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 247:
+                        switch (this->peek->type) {
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(244, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(245, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(246, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(248, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(260, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(262, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(263, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 248:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 249:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(301, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 250:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_32();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 251:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_33();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 252:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_34();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 253:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_35();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 254:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_36();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 255:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_37();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 256:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_38();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 257:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_39();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 258:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_40();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 259:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_41();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 260:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 261:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(303, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 262:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 263:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 264:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::BR:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_28();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCalls), r);
+                                break;
+                            case LNodeType::EQUAL:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(44, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(46, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(47, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 265:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(307, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 266:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(64, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(65, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 267:
+                        switch (this->peek->type) {
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(67, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(68, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 268:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 269:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_32();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 270:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_33();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 271:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_34();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 272:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_35();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 273:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_36();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 274:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_37();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 275:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_38();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 276:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_39();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 277:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_40();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 278:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_41();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 279:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 280:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(312, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 281:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_48();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 282:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_49();
+                                this->pop(1);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 283:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 284:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(83, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(88, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(89, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 285:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(315, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 286:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(78, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(79, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 287:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 288:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                            case LNodeType::TO:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 289:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 290:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_0();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Atom), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 291:
+                        switch (this->peek->type) {
+                            case LNodeType::ADD:
+                            case LNodeType::DIV:
+                            case LNodeType::DO:
+                            case LNodeType::EQ:
+                            case LNodeType::FBRAC:
+                            case LNodeType::G:
+                            case LNodeType::GEQ:
+                            case LNodeType::L:
+                            case LNodeType::LEQ:
+                            case LNodeType::MUL:
+                            case LNodeType::NEQ:
+                            case LNodeType::SUB:
+                                r = this->reduce_27();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCall), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 292:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(318, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 293:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(319, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 294:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(320, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 295:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 296:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(323, r);
+                                break;
+                            case LNodeType::IN:
+                                r = this->shift_IN();
+                                this->push(324, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 297:
+                        switch (this->peek->type) {
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(325, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 298:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_43();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::ELSE:
+                                r = this->shift_ELSE();
+                                this->push(326, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 299:
+                        switch (this->peek->type) {
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(244, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(245, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(246, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(248, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(260, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(262, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(263, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 300:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(126, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 301:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 302:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(330, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 303:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 304:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(138, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 305:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(333, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 306:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(334, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 307:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 308:
+                        switch (this->peek->type) {
+                            case LNodeType::EQUAL:
+                                r = this->shift_EQUAL();
+                                this->push(336, r);
+                                break;
+                            case LNodeType::IN:
+                                r = this->shift_IN();
+                                this->push(337, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 309:
+                        switch (this->peek->type) {
+                            case LNodeType::FBRAC:
+                                r = this->shift_FBRAC();
+                                this->push(338, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 310:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(126, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 311:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(340, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 312:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 313:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_51();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 314:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(138, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 315:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 316:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(344, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 317:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 318:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 319:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 320:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 321:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_4();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 322:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 323:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 324:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 325:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(172, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(173, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 326:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(353, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 327:
+                        switch (this->peek->type) {
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                                r = this->reduce_43();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 328:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->shift_THEN();
+                                this->push(355, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 329:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_31();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::IStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 330:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 331:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_46();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::SStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 332:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(357, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 333:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 334:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(112, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(113, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 335:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_4();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::BStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 336:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(155, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(161, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(162, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 337:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 338:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->reduce_54();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Vars), r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(172, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(173, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 339:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->shift_THEN();
+                                this->push(363, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 340:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 341:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_46();
+                                this->pop(3);
+                                this->push(this->GOTO(this->top_state(), LNodeType::SStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 342:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(365, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 343:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_56();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::WStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 344:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 345:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(367, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 346:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_25();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F1Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 347:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_26();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 348:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(368, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 349:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 350:
+                        switch (this->peek->type) {
+                            case LNodeType::TO:
+                                r = this->shift_TO();
+                                this->push(369, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 351:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(370, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 352:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(371, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 353:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(353, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 354:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 355:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 356:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_44();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::RStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 357:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 358:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_57();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::YStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 359:
+                        switch (this->peek->type) {
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(376, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 360:
+                        switch (this->peek->type) {
+                            case LNodeType::TO:
+                                r = this->shift_TO();
+                                this->push(377, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 361:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(378, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 362:
+                        switch (this->peek->type) {
+                            case LNodeType::KET:
+                                r = this->shift_KET();
+                                this->push(379, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 363:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 364:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_44();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::RStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 365:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 366:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_57();
+                                this->pop(4);
+                                this->push(this->GOTO(this->top_state(), LNodeType::YStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 367:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 368:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 369:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 370:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 371:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 372:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_16();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 373:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 374:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(388, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 375:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 376:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 377:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(163, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(169, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(170, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 378:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 379:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 380:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(244, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(245, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(246, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(248, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(260, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(262, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(263, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 381:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 382:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_24();
+                                this->pop(11);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F0Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 383:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_17();
+                                this->pop(6);
+                                this->push(this->GOTO(this->top_state(), LNodeType::EStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 384:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(399, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 385:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 386:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 387:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(402, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 388:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(69, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(75, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(76, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 389:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(404, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 390:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(388, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 391:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(406, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 392:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_17();
+                                this->pop(6);
+                                this->push(this->GOTO(this->top_state(), LNodeType::EStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 393:
+                        switch (this->peek->type) {
+                            case LNodeType::DO:
+                                r = this->shift_DO();
+                                this->push(407, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 394:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 395:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 396:
+                        switch (this->peek->type) {
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(244, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(245, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(246, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(248, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(260, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(262, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(263, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 397:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(411, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 398:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(412, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 399:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 400:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(414, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 401:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(415, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 402:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(1, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 403:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(126, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 404:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 405:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_43();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 406:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 407:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 408:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(421, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 409:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(422, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 410:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_43();
+                                this->pop(2);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::ELSE:
+                                r = this->shift_ELSE();
+                                this->push(423, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 411:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 412:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 413:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 414:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 415:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 416:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::EOFF:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_30();
+                                this->pop(13);
+                                this->push(this->GOTO(this->top_state(), LNodeType::IEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 417:
+                        switch (this->peek->type) {
+                            case LNodeType::THEN:
+                                r = this->shift_THEN();
+                                this->push(429, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 418:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_31();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::IStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 419:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_56();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::WStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 420:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 421:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 422:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 423:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(353, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 424:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_31();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::IStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 425:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_56();
+                                this->pop(8);
+                                this->push(this->GOTO(this->top_state(), LNodeType::WStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 426:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(434, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 427:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_25();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F1Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 428:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_26();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 429:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 430:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(436, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 431:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_25();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F1Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 432:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_26();
+                                this->pop(9);
+                                this->push(this->GOTO(this->top_state(), LNodeType::FCStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 433:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 434:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(322, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 435:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_42();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::NIEStmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(388, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 436:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 437:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->reduce_50();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Stmts), r);
+                                break;
+                            case LNodeType::BRAC:
+                                r = this->shift_BRAC();
+                                this->push(5, r);
+                                break;
+                            case LNodeType::BREAK:
+                                r = this->shift_BREAK();
+                                this->push(265, r);
+                                break;
+                            case LNodeType::FOR:
+                                r = this->shift_FOR();
+                                this->push(266, r);
+                                break;
+                            case LNodeType::FUNCTION:
+                                r = this->shift_FUNCTION();
+                                this->push(267, r);
+                                break;
+                            case LNodeType::IF:
+                                r = this->shift_IF();
+                                this->push(268, r);
+                                break;
+                            case LNodeType::RETURN:
+                                r = this->shift_RETURN();
+                                this->push(279, r);
+                                break;
+                            case LNodeType::INT:
+                                r = this->shift_INT();
+                                this->push(30, r);
+                                break;
+                            case LNodeType::VAR:
+                                r = this->shift_VAR();
+                                this->push(31, r);
+                                break;
+                            case LNodeType::WHILE:
+                                r = this->shift_WHILE();
+                                this->push(284, r);
+                                break;
+                            case LNodeType::YIELD:
+                                r = this->shift_YIELD();
+                                this->push(286, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 438:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::ELSE:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_24();
+                                this->pop(11);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F0Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 439:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_24();
+                                this->pop(11);
+                                this->push(this->GOTO(this->top_state(), LNodeType::F0Stmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 440:
+                        switch (this->peek->type) {
+                            case LNodeType::END:
+                                r = this->shift_END();
+                                this->push(441, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 441:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_15();
+                                this->pop(0);
+                                this->push(this->GOTO(this->top_state(), LNodeType::Brs), r);
+                                break;
+                            case LNodeType::BR:
+                                r = this->shift_BR();
+                                this->push(219, r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    case 442:
+                        switch (this->peek->type) {
+                            case LNodeType::BRAC:
+                            case LNodeType::BREAK:
+                            case LNodeType::END:
+                            case LNodeType::FOR:
+                            case LNodeType::FUNCTION:
+                            case LNodeType::IF:
+                            case LNodeType::INT:
+                            case LNodeType::RETURN:
+                            case LNodeType::VAR:
+                            case LNodeType::WHILE:
+                            case LNodeType::YIELD:
+                                r = this->reduce_30();
+                                this->pop(13);
+                                this->push(this->GOTO(this->top_state(), LNodeType::IEStmt), r);
+                                break;
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    default:
+                        this->error();
+                        break;
+                }
             }
+        } catch (LParserException &exception) {
+            std::cout << exception.detail << std::endl;
+            return;
         }
     }
 

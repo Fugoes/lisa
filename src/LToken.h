@@ -2,8 +2,6 @@
 #define LISA_LTOKEN_H
 
 #include <string>
-#include <memory>
-#include <optional>
 
 #include "LNodeType.h"
 

@@ -289,28 +289,37 @@ lparser_h_template = """#ifndef LISA_LPARSER_H
 #include <vector>
 #include <memory>
 #include <iostream>
-#include <cstdlib>
+#include <exception>
+
+class LParserException : std::exception {
+public:
+    std::string detail;
+
+    explicit LParserException(std::string &&detail) {
+        this->detail = std::move(detail);
+    }
+
+    virtual const char *what() const throw() {
+        return this->detail.c_str();
+    }
+};
 
 class LParser {
 public:
     std::unique_ptr<LLexer> lexer;
 
-    LToken peek;
+    std::shared_ptr<LToken> peek;
 
     std::vector<int> state_stack;
 
     std::vector<std::shared_ptr<LNode>> node_stack;
 
-    bool terminated{false};
-
     void error() {
-        std::cout << "ERROR" << std::endl;
-        this->terminated = true;
+        throw LParserException("ERROR");
     }
 
     void accept() {
-        std::cout << "ACCEPT" << std::endl;
-        this->terminated = true;
+        throw LParserException("ACCEPT");
     }
 
     std::shared_ptr<LNode> get_node(int i) {
@@ -318,8 +327,8 @@ public:
     }
 
     void move() {
-        this->peek = this->lexer->next_token().value();
-        std::cout << this->peek.str() << std::endl;
+        this->peek = this->lexer->next_token();
+        std::cout << this->peek->str() << std::endl;
     }
 
     void pop(int n) {
@@ -357,30 +366,30 @@ public:
     void parse() {
         this->push(0, nullptr);
         std::shared_ptr<LNode> r;
-        int flag = -1;
-        while (!this->terminated) {
-            switch (this->top_state()) {
-                {% for state, lines in g["parse"] %}case {{ state }}:
-                    switch (this->peek.type) {% raw %}{{% endraw %}{% for is_case, is_shift, is_reduce, a, b in lines %}
-                        {% if is_case %}case LNodeType::{{ a }}:{% elif is_shift %}    r = this->shift_{{ a }}();
-                            if (this->terminated) break;
-                            this->push({{ b }}, r);
-                            break;{% else %}    r = this->reduce_{{ a }}();
-                            if (this->terminated) break;
-                            this->pop({{ g["pop_num"][a] }});
-                            flag = this->GOTO(this->top_state(), LNodeType::{{ g["as"][a] }});
-                            if (this->terminated) break;
-                            this->push(flag, r);
-                            break;{% endif %}{% endfor %}
-                        default:
-                            this->error();
-                            break;
-                    }
-                    break;
-                {% endfor %}default:
-                    this->error();
-                    break;
+        try {
+            while (true) {
+                switch (this->top_state()) {
+                    {% for state, lines in g["parse"] %}case {{ state }}:
+                        switch (this->peek->type) {% raw %}{{% endraw %}{% for is_case, is_shift, is_reduce, a, b in lines %}
+                            {% if is_case %}case LNodeType::{{ a }}:{% elif is_shift %}    r = this->shift_{{ a }}();
+                                this->push({{ b }}, r);
+                                break;{% else %}    r = this->reduce_{{ a }}();
+                                this->pop({{ g["pop_num"][a] }});
+                                this->push(this->GOTO(this->top_state(), LNodeType::{{ g["as"][a] }}), r);
+                                break;{% endif %}{% endfor %}
+                            default:
+                                this->error();
+                                break;
+                        }
+                        break;
+                    {% endfor %}default:
+                        this->error();
+                        break;
+                }
             }
+        } catch (LParserException &exception) {
+            std::cout << exception.detail << std::endl;
+            return;
         }
     }
 

@@ -47,8 +47,8 @@ void LStringLexer::move() {
     }
 }
 
-std::optional<LToken> LLexer::next_token() {
-    if (this->peek() == 0) return LToken(LNodeType::EOFF, "");
+std::shared_ptr<LToken> LLexer::next_token() {
+    if (this->peek() == 0) return std::make_shared<LToken>(LNodeType::EOFF, "");
     int state = 0;
     std::stringstream ss;
     while (true) {
@@ -96,7 +96,7 @@ std::optional<LToken> LLexer::next_token() {
                 }
                 break;
             default:
-                return std::nullopt;
+                return nullptr;
         }
         if (!is_blank(c)) ss << c;
         this->move();
@@ -107,11 +107,11 @@ LLexer::LLexer() {
     this->prev_char = 0;
 }
 
-std::optional<LToken> LLexer::from_int(std::string token) {
-    return LToken(LNodeType::INT, std::move(token));
+std::shared_ptr<LToken> LLexer::from_int(std::string token) {
+    return std::make_shared<LToken>(LNodeType::INT, std::move(token));
 }
 
-std::optional<LToken> LLexer::from_symbol(std::string token) {
+std::shared_ptr<LToken> LLexer::from_symbol(std::string token) {
     LNodeType type = LNodeType::INVALID;
     if (token.size() == 1) {
         switch (token[0]) {
@@ -144,7 +144,7 @@ std::optional<LToken> LLexer::from_symbol(std::string token) {
                 type = LNodeType::SUB;
                 break;
             default:
-                return std::nullopt;
+                return nullptr;
         }
     } else if (token.size() == 2) {
         switch (token[0]) {
@@ -161,42 +161,42 @@ std::optional<LToken> LLexer::from_symbol(std::string token) {
                 type = LNodeType::GEQ;
                 break;
             default:
-                return std::nullopt;
+                return nullptr;
         }
     }
     if (type == LNodeType::INVALID) {
-        return std::nullopt;
+        return nullptr;
     } else {
-        return LToken(type, std::move(token));
+        return std::make_shared<LToken>(type, std::move(token));
     }
 }
 
-std::optional<LToken> LLexer::from_string(std::string token) {
+std::shared_ptr<LToken> LLexer::from_string(std::string token) {
     if (token == "break")
-        return LToken(LNodeType::BREAK, std::move(token));
+        return std::make_shared<LToken>(LNodeType::BREAK, std::move(token));
     if (token == "do")
-        return LToken(LNodeType::DO, std::move(token));
+        return std::make_shared<LToken>(LNodeType::DO, std::move(token));
     if (token == "else")
-        return LToken(LNodeType::ELSE, std::move(token));
+        return std::make_shared<LToken>(LNodeType::ELSE, std::move(token));
     if (token == "end")
-        return LToken(LNodeType::END, std::move(token));
+        return std::make_shared<LToken>(LNodeType::END, std::move(token));
     if (token == "for")
-        return LToken(LNodeType::FOR, std::move(token));
+        return std::make_shared<LToken>(LNodeType::FOR, std::move(token));
     if (token == "function")
-        return LToken(LNodeType::FUNCTION, std::move(token));
+        return std::make_shared<LToken>(LNodeType::FUNCTION, std::move(token));
     if (token == "if")
-        return LToken(LNodeType::IF, std::move(token));
+        return std::make_shared<LToken>(LNodeType::IF, std::move(token));
     if (token == "in")
-        return LToken(LNodeType::IN, std::move(token));
+        return std::make_shared<LToken>(LNodeType::IN, std::move(token));
     if (token == "return")
-        return LToken(LNodeType::RETURN, std::move(token));
+        return std::make_shared<LToken>(LNodeType::RETURN, std::move(token));
     if (token == "then")
-        return LToken(LNodeType::THEN, std::move(token));
+        return std::make_shared<LToken>(LNodeType::THEN, std::move(token));
     if (token == "to")
-        return LToken(LNodeType::TO, std::move(token));
+        return std::make_shared<LToken>(LNodeType::TO, std::move(token));
     if (token == "while")
-        return LToken(LNodeType::WHILE, std::move(token));
+        return std::make_shared<LToken>(LNodeType::WHILE, std::move(token));
     if (token == "yield")
-        return LToken(LNodeType::YIELD, std::move(token));
-    return LToken(LNodeType::VAR, std::move(token));
+        return std::make_shared<LToken>(LNodeType::YIELD, std::move(token));
+    return std::make_shared<LToken>(LNodeType::VAR, std::move(token));
 }

@@ -1,7 +1,5 @@
 #include "LToken.h"
 
-#include <memory>
-#include <vector>
 #include <sstream>
 
 std::string LToken::str() {

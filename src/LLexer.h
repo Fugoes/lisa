@@ -4,21 +4,21 @@
 #include "LToken.h"
 
 #include <string>
-#include <optional>
+#include <memory>
 
 class LLexer {
 public:
     LLexer();
 
-    std::optional<LToken> next_token();
+    std::shared_ptr<LToken> next_token();
 
     char prev_char{};
 
-    std::optional<LToken> from_int(std::string token);
+    std::shared_ptr<LToken> from_int(std::string token);
 
-    std::optional<LToken> from_symbol(std::string token);
+    std::shared_ptr<LToken> from_symbol(std::string token);
 
-    std::optional<LToken> from_string(std::string token);
+    std::shared_ptr<LToken> from_string(std::string token);
 
     virtual ~LLexer() = default;
 

@@ -1,9 +1,6 @@
-#include <utility>
-
 #include "LParser.h"
 
 #include <sstream>
-#include <vector>
 
 class LNodeChildren {
 public:
@@ -533,7 +530,7 @@ std::shared_ptr<LNode> LParser::shift_IN() {
 }
 
 std::shared_ptr<LNode> LParser::shift_INT() {
-    auto r = std::make_shared<LNodeData<int64_t>>(LNodeType::INT, std::stol(this->peek.token));
+    auto r = std::make_shared<LNodeData<int64_t>>(LNodeType::INT, std::stol(this->peek->token));
     this->move();
     return r;
 }
@@ -584,7 +581,7 @@ std::shared_ptr<LNode> LParser::shift_TO() {
 }
 
 std::shared_ptr<LNode> LParser::shift_VAR() {
-    auto r = std::make_shared<LNodeData<std::string>>(LNodeType::VAR, this->peek.token);
+    auto r = std::make_shared<LNodeData<std::string>>(LNodeType::VAR, this->peek->token);
     this->move();
     return r;
 }
